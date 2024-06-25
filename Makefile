@@ -8,6 +8,8 @@ SRC =	parsing.c\
 		gnl/get_next_line_utils.c\
 		quotes.c\
 		check.c\
+		ms_sptli_w_no_quotes.c\
+		split_utils.c\
  
 OBJ = $(SRC:%.c=%.o)
 
