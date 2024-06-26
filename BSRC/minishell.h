@@ -10,6 +10,7 @@
 # include <readline/history.h>
 # include "../libft/SRC/libft.h"
 
+extern g_exit_status;
 typedef struct s_tokens
 {
 	char		    *content;
@@ -47,4 +48,25 @@ char	*get_ft_strdup(char *s1);
 t_tokens	*ft_lstnew(void *content);
 void	ft_lstadd_back(t_tokens **lst, t_tokens *new);
 int     ft_lstsize(t_tokens *lst);
+//tokenization functions and some utils functions and struct
+typedef struct s_inside
+{
+    bool quotes;   // Tracks if currently inside single quotes
+    bool dquotes;  // Tracks if currently inside double quotes
+} t_inside;
+/**
+ * 	when name is delim for heredoc, is_extra is set to true
+ * 	when file is for append, is_extra is set to true
+ */
+typedef struct s_file
+{
+	char	*name;
+	bool	is_extra;
+}				t_file;
+
+bool ft_is_space(char c);
+char *ft_exclude_quotes(char *str);
+t_file *ms_get_next_redirect(char *line_chunk, char type, int *ptr);
+bool ft_is_space(char c);
+char	*ft_skip_spaces(char *str);
 #endif
