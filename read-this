@@ -1,0 +1,15 @@
+mohammed
+hears how i imagne the data structure will go like
+t_struct *tokens = ///splited by pipes
+	int number of pipes
+	t_struct *commands //// this point to the first command in the linked list of commands
+	struct s_tokens	*next /// points to the next command
+
+t_struct *commands =
+	char **cmd /////this will be the command that goes into the execve including its arguments
+	t_struct *redirection ///////this wil point to the first redirectio in the linked list of redierections
+
+t_struct *redirection
+	int type
+	char *file_name
+	struct s_redirection	*next ////////points to the next command
