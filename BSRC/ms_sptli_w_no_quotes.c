@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_sptli_w_no_quotes.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/26 05:12:20 by louisalah        ###   ########.fr       */
+/*   Updated: 2024/06/30 04:49:46 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static t_tokens *tokens_1(char **str)
 		tokens_arr = ft_lstnew(str[0]);
 	while(str[++i])
 	{
-		ft_lstadd_back(&tokens_arr, ft_lstnew("|"));
+		// ft_lstadd_back(&tokens_arr, ft_lstnew("|"));
 		ft_lstadd_back(&tokens_arr, ft_lstnew(str[i]));
 	}
 	return (tokens_arr);

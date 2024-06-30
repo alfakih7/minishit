@@ -31,20 +31,22 @@ typedef struct s_split_vars {
     char **content;     // Array to store resulting substrings
 } t_split_vars;
 
-int update_quote_state(char current_char , int *quote_state);
-char	*get_next_line(int fd);
-int	check_quotes(char *command);
-char	*chrskip(char *s, char c);
-int	split_with_no_quotes_len(char *line, int c);
-void ft_split_destroy(char **split_array);
-// char	**split_with_no_quotes(char *line, int c);
-t_tokens *split_with_no_quotes(char *line, int c);
-int *ms_char_positions(char *line, int c);
-size_t	get_ft_strlen(char *str);
-char	*get_ft_strchr(const char *s, int c);
-char	*get_ft_strjoin(char *s1, char *s2);
-char	*get_ft_strdup(char *s1);
+int			update_quote_state(char current_char , int *quote_state);
+char		*get_next_line(int fd);
+int			check_quotes(char *command);
+char		*chrskip(char *s, char c);
+int			split_with_no_quotes_len(char *line, int c);
+void		ft_split_destroy(char **split_array);
+t_tokens	*split_with_no_quotes(char *line, int c);
+int			*ms_char_positions(char *line, int c);
+size_t		get_ft_strlen(char *str);
+char		*get_ft_strchr(const char *s, int c);
+char		*get_ft_strjoin(char *s1, char *s2);
+char		*get_ft_strdup(char *s1);
 t_tokens	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_tokens **lst, t_tokens *new);
-int     ft_lstsize(t_tokens *lst);
+void		ft_lstadd_back(t_tokens **lst, t_tokens *newtoken);
+int			ft_lstsize(t_tokens *lst);
+void		ft_free(void *one_p, char **two_p);
+char		**get_path(char **env);
+void		execute(char *av, char **env);
 #endif
