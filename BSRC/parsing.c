@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/30 04:48:01 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/06/30 18:45:42 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,20 @@ int	main(int ac, char **av, char **env)
 		cmd = split_with_no_quotes(str, '|');
 		i = 0;
 		check_quotes(str);
-		// // cmd = cmd->next->next;
+		// cmd = cmd->next->next;
 		// printf("(%s)\n", cmd->content);
 		// pid = fork();
 		// if (!pid)
 		// 	execute(cmd->content, env);
-		while (cmd)
-		{
-			printf("cmd[%d] = (%s)\n", i, cmd->content);
-			cmd = cmd->next;
-			i++;
-		}
-		printf("num of pipes = %d\n", split_with_no_quotes_len(str, '|'));
-		if (ft_strchr(str, '\"'))
-			return (1);
+		// while (cmd)
+		// {
+		// 	printf("cmd[%d] = (%s)\n", i, cmd->content);
+		// 	cmd = cmd->next;
+		// 	i++;
+		// }
+		// printf("num of pipes = %d\n", split_with_no_quotes_len(str, '|'));
+		// if (ft_strchr(str, '\"'))
+		// 	return (1);
 	}
 	return (0);
 }
