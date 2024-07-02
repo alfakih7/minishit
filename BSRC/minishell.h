@@ -4,13 +4,12 @@
 # include <string.h>
 # include <stdio.h>
 # include <unistd.h>
-#include <stdbool.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/SRC/libft.h"
 
-extern g_exit_status;
 typedef struct s_tokens
 {
 	char		    *content;
@@ -32,14 +31,16 @@ typedef struct s_split_vars {
     char **content;     // Array to store resulting substrings
 } t_split_vars;
 
+bool	check_multiple_pipes(char *line);
 int update_quote_state(char current_char , int *quote_state);
 char	*get_next_line(int fd);
 int	check_quotes(char *command);
 char	*chrskip(char *s, char c);
 int	split_with_no_quotes_len(char *line, int c);
 void ft_split_destroy(char **split_array);
-// char	**split_with_no_quotes(char *line, int c);
-t_tokens *split_with_no_quotes(char *line, int c);
+char	**split_with_no_quotes(char *line, int c);
+t_tokens	*tokens_1(char **str);
+// t_tokens *split_with_no_quotes(char *line, int c);
 int *ms_char_positions(char *line, int c);
 size_t	get_ft_strlen(char *str);
 char	*get_ft_strchr(const char *s, int c);
@@ -69,4 +70,6 @@ char *ft_exclude_quotes(char *str);
 t_file *ms_get_next_redirect(char *line_chunk, char type, int *ptr);
 bool ft_is_space(char c);
 char	*ft_skip_spaces(char *str);
+
+bool	check_syntax(char *line);
 #endif

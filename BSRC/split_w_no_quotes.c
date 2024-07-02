@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_sptli_w_no_quotes.c                             :+:      :+:    :+:   */
+/*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/26 05:12:20 by louisalah        ###   ########.fr       */
+/*   Updated: 2024/07/01 13:25:31 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static bool fill_content(t_split_vars *vars)
 
 /////// given the pipe as a token
 
-static t_tokens *tokens_1(char **str)
+t_tokens *tokens_1(char **str)
 {
     t_tokens    *tokens_arr;
     int     i;
@@ -130,13 +130,13 @@ static t_tokens *tokens_1(char **str)
 		tokens_arr = ft_lstnew(str[0]);
 	while(str[++i])
 	{
-		ft_lstadd_back(&tokens_arr, ft_lstnew("|"));
+		// ft_lstadd_back(&tokens_arr, ft_lstnew("|"));
 		ft_lstadd_back(&tokens_arr, ft_lstnew(str[i]));
 	}
 	return (tokens_arr);
 }
 
-t_tokens *split_with_no_quotes(char *line, int c)
+char	**split_with_no_quotes(char *line, int c)
 {
     t_split_vars vars;
 
@@ -168,6 +168,6 @@ t_tokens *split_with_no_quotes(char *line, int c)
         return (NULL);
     
     // Clean up 'positions' array and return 'content' array
-    return (free(vars.positions), tokens_1(vars.content));
+    return (free(vars.positions), (vars.content));
 }
 
