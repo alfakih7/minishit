@@ -79,7 +79,7 @@ char **ms_get_fullcmd(char *line_piece, int *ptr)
         cmds_length += tick_inside_vars(&inside, (line_piece + *ptr)[cmds_length]);
 
     // If no command is found or the length of the command is 0, return NULL
-    if (!ms_contains_cmd((line_piece + *ptr)) || cmds_length == 0)
+    if (!contains_cmd((line_piece + *ptr)) || cmds_length == 0)
         return (NULL);
 
     // Extract the substring from line_piece starting at *ptr with length cmds_length
