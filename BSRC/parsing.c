@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/02 16:33:27 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/04 01:17:45 by louisalah        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int main(int ac, char **av, char **env)
 
     while(42)
     {
-        printf("minishell > ");
         line_chunk = get_next_line(0);
 		if (line_chunk)
 		{
+        	printf("minishell > ");
 			check_quotes(line_chunk);
 			if (!check_syntax(line_chunk))
 				ft_putstr_fd("syntax error near unexpected token\n", 2);
