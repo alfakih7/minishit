@@ -69,4 +69,9 @@ char *ft_exclude_quotes(char *str);
 t_file *ms_get_next_redirect(char *line_chunk, char type, int *ptr);
 bool ft_is_space(char c);
 char	*ft_skip_spaces(char *str);
+bool	ms_contains_redirect(char *line_chunk, char type);
+
+//cmd functions
+char *ms_get_cmd(char *line_chunk);
+char **ms_get_fullcmd(char *line_piece, int *ptr);
 #endif
