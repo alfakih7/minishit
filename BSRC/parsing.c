@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/02 15:06:18 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:33:27 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ int main(int ac, char **av, char **env)
         line_chunk = get_next_line(0);
 		if (line_chunk)
 		{
-			cmd = tokens_1(split_with_no_quotes(line_chunk, '|'));
 			check_quotes(line_chunk);
+			if (!check_syntax(line_chunk))
+				ft_putstr_fd("syntax error near unexpected token\n", 2);
+			// cmd = tokens_1(split_with_no_quotes(line_chunk, '|'));
 			// while (line_chunk[ptr]) {
 			// redirect = ms_get_next_redirect(line_chunk, '>', &ptr);
 			// if (redirect) {
@@ -36,14 +38,14 @@ int main(int ac, char **av, char **env)
 			//     free(redirect);
 			// }
 			i = 0;
-			while (cmd)
-			{
-				printf("cmd[%d] = (%s)\n",i++ , cmd->content);
-				cmd = cmd->next;
-			}
-			printf("num of pipes = %d\n", split_with_no_quotes_len(line_chunk, '|'));
-			if (ft_strchr(line_chunk, '\"'))
-				return (1);
+			// while (cmd)
+			// {
+			// 	printf("cmd[%d] = (%s)\n",i++ , cmd->content);
+			// 	cmd = cmd->next;
+			// }
+			// printf("num of pipes = %d\n", split_with_no_quotes_len(line_chunk, '|'));
+			// if (ft_strchr(line_chunk, '\"'))
+			// 	return (1);
 		}
     }
     return (0);

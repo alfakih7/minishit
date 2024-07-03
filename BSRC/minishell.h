@@ -47,7 +47,7 @@ char	*get_ft_strchr(const char *s, int c);
 char	*get_ft_strjoin(char *s1, char *s2);
 char	*get_ft_strdup(char *s1);
 t_tokens	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_tokens **lst, t_tokens *new);
+void	ft_lstadd_back(t_tokens **lst, t_tokens *new1);
 int     ft_lstsize(t_tokens *lst);
 //tokenization functions and some utils functions and struct
 typedef struct s_inside
