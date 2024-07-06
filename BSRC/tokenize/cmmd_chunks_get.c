@@ -1,3 +1,5 @@
+
+#include "../minishell.h"
 /*
  * Initializes an array of t_cmd_chunk pointers.
  * Allocates memory for 'amount' number of t_cmd_chunk pointers and initializes each chunk.
@@ -76,36 +78,28 @@ static bool is_err(t_cmd_chunk **chunks, int reach, char *line)
  * Otherwise, adds new_node to the specified list and adjusts the list if the added node's content is NULL.
  * Returns true upon successful addition.
  */
-static bool add_back(t_cmd_chunk *chunk, char type, t_file *new_node)
+static bool	add_back(t_cmd_chunk *chunk, char type, t_file *new_node)
 {
-    t_list *temp;
-    t_list **lst;
+	t_list	*temp;
+	t_list	**lst;
 
-    // Return false if new_node is NULL
-    if (!new_node)
-        return false;
-
-    lst = NULL;
-    // Determine the list to add to based on 'type' (input or output)
-    if (type == '>')
-        lst = &(chunk->outputs);
-    else if (type == '<')
-        lst = &(chunk->inputs);
-
-    // Add new_node to the end of the specified list
-    ft_lstadd_back(lst, ft_lstnew(new_node));
-
-    // Adjust the list if the added node's content is NULL
-    if ((*lst)->content == NULL)
-    {
-        temp = (*lst);
-        (*lst) = (*lst)->next;
-        free(temp);
-    }
-
-    // Return true indicating successful addition
-    return true;
+	if (!new_node)
+		return (false);
+	lst = NULL;
+	if (type == '>')
+		lst = &(chunk->outputs);
+	else if (type == '<')
+		lst = &(chunk->inputs);
+	ft_lstadd_back(lst, ft_lstnew(new_node));
+	if ((*lst)->content == NULL)
+	{
+		temp = (*lst);
+		(*lst) = (*lst)->next;
+		free(temp);
+	}
+	return (true);
 }
+
 /*
  * Parses an array of command pieces (line_pieces) into structured command chunks (t_cmd_chunk).
  * Initializes an array of t_cmd_chunk pointers using chunk_init.
@@ -140,8 +134,9 @@ t_cmd_chunk **ms_command_chunks_get(char **line_pieces, size_t amount)
             else if (token == 2)
                 chunks[i]->cmd = ms_get_fullcmd(line_pieces[i], &ptr);
             else if (token == '<' || token == '>')
+                // t_file * new_node = ms_get_next_redirect(line_pieces[i], token, &ptr);
                 if (!add_back(chunks[i], token,
-                        get_next_ride(line_pieces[i], token, &ptr)))
+                        ms_get_next_redirect(line_pieces[i], token, &ptr)))
                     return (ms_clean(chunks, NULL, NULL), NULL);
         }
     }

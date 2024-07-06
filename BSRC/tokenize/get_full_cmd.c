@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // This function removes quotes from each string in the given array of strings.
 // It uses the ft_exclude_quotes function to remove the quotes and frees the old strings.

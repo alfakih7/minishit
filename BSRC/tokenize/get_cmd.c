@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 // This function extracts a command from the given line chunk, ignoring leading spaces,
 // and stopping at special characters '>' or '<'. It returns the extracted command as a new string.
 char *ms_get_cmd(char *line_chunk)

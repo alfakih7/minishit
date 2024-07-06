@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 17:13:34 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/24 14:40:04 by louisalah        ###   ########.fr       */
+/*   Updated: 2024/07/06 07:11:26 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static char	*ft_read_line(int fd, char *rem)
 {

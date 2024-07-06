@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:48:38 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/26 05:13:28 by louisalah        ###   ########.fr       */
+/*   Updated: 2024/07/06 11:28:44 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_lstsize(t_tokens *lst)
+int	ft_lstsize(t_list *lst)
 {
 	int	count;
 

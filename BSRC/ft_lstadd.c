@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 15:51:40 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/26 05:03:25 by louisalah        ###   ########.fr       */
+/*   Updated: 2024/07/06 11:29:22 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_tokens	*ft_lstlast(t_tokens *lst)
+static t_list	*ft_lstlast(t_list *lst)
 {
 	if (lst == NULL)
 		return (NULL);
@@ -21,7 +21,7 @@ static t_tokens	*ft_lstlast(t_tokens *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_tokens **lst, t_tokens *new)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	if (*lst == NULL)
 		*lst = new;
