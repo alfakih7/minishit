@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 07:42:30 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/06 07:50:01 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ t_tokens *tokens_1(char **str)
 	return (tokens_arr);
 }
 
-char	**split_with_no_quotes(char *line, int c)
+t_tokens	*split_with_no_quotes(char *line, int c)
 {
     t_split_vars vars;
 
@@ -168,6 +168,6 @@ char	**split_with_no_quotes(char *line, int c)
         return (NULL);
     
     // Clean up 'positions' array and return 'content' array
-    return (free(vars.positions), (vars.content));
+    return (free(vars.positions), tokens_1((vars.content)));
 }
 

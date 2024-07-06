@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 07:42:44 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 07:42:46 by asid-ahm         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -45,6 +33,7 @@ typedef struct s_split_vars {
 } t_split_vars;
 
 int			update_quote_state(char current_char , int *quote_state);
+int			echo(char **cmd);
 char		*get_next_line(int fd);
 int			check_quotes(char *command);
 char		*chrskip(char *s, char c);
@@ -62,4 +51,5 @@ int			ft_lstsize(t_tokens *lst);
 void		ft_free(void *one_p, char **two_p);
 char		**get_path(char **env);
 void		execute(char *av, char **env);
+bool		check_syntax(char *line);
 #endif
