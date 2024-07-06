@@ -6,7 +6,11 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/06 14:12:05 by asid-ahm         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/06 13:25:30 by almohame         ###   ########.fr       */
+>>>>>>> a4b2dc10ed913bb06494c8a21b0ab47b167ccf68
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +42,15 @@
 //     }
 //     return (0);
 // }
-int main(int ac, char **av, char **env)
-{
-    t_tokens *cmd;
-    int   i;
-    char *line_chunk;
-    int ptr = 0;
-    t_file *redirect;
 
-    while(42)
-    {
+
+int main(int argc, char **argv, char **envp) {
+    char *line_chunk;
+    t_cmd_chunk **commands;
+    char **pipelines;
+    int i = 0;
+
+    while (1) {
         printf("minishell > \n");
         check_quotes(line_chunk);
         line_chunk = get_next_line(0);
@@ -63,5 +66,6 @@ int main(int ac, char **av, char **env)
         // if (ft_strchr(str, '\"'))
         //     return (1);
     }
-    return (0);
+
+    return 0;
 }

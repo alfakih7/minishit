@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "../minishell.h"
 
-bool	ms_contains_redirect(char *line_chunk, char type)
+bool	contains_redirect(char *line_chunk, char type)
 {
 	if (!line_chunk || !*line_chunk)
 		return (false);

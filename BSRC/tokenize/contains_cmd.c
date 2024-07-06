@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 bool	contains_cmd(char *line_chunk)
 {
