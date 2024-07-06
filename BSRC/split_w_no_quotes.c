@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_sptli_w_no_quotes.c                             :+:      :+:    :+:   */
+/*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/30 04:49:46 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/06 07:42:30 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static bool fill_content(t_split_vars *vars)
 
 /////// given the pipe as a token
 
-static t_tokens *tokens_1(char **str)
+t_tokens *tokens_1(char **str)
 {
     t_tokens    *tokens_arr;
     int     i;
@@ -136,7 +136,7 @@ static t_tokens *tokens_1(char **str)
 	return (tokens_arr);
 }
 
-t_tokens *split_with_no_quotes(char *line, int c)
+char	**split_with_no_quotes(char *line, int c)
 {
     t_split_vars vars;
 
@@ -168,6 +168,6 @@ t_tokens *split_with_no_quotes(char *line, int c)
         return (NULL);
     
     // Clean up 'positions' array and return 'content' array
-    return (free(vars.positions), tokens_1(vars.content));
+    return (free(vars.positions), (vars.content));
 }
 

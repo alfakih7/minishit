@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/06 07:42:44 by asid-ahm          #+#    #+#             */
+/*   Updated: 2024/07/06 07:42:46 by asid-ahm         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <string.h>
 # include <stdio.h>
 # include <unistd.h>
-#include <stdbool.h>
+# include <fcntl.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
