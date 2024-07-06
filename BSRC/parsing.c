@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 20:01:56 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/06 22:24:06 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	void	printlist(t_files *file)
 int main(int argc, char **argv, char **envp)
 {
 	int			i;
-	t_files		*redirections;
+	t_cmd		*redirections;
 	char		*line_chunk;
 	char		**cmd; //splitted by pipes
 
@@ -45,11 +45,13 @@ int main(int argc, char **argv, char **envp)
 				if (cmd)
 				{
 					redirections = ft_redirection(joined_str(cmd[0]));
-					printlist(redirections);
+					// printf("waa");
+					printlist(redirections->redirect);
 					if (!cmd)
 						return (1);
-					// while (cmd && cmd[++i])
-					// 	printf("cmd [%d] = %s\n", i, cmd[i]);
+						i = -1;
+					while ((redirections->content && redirections->content[++i]))
+						printf("cmd [%d] = %s\n", i, redirections->content[i]);
 				}
 			}
 		}

@@ -6,11 +6,13 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:29:37 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 20:19:27 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/06 22:28:03 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static char *get_file_name(char *splitted)
 {
@@ -28,7 +30,7 @@ static char	*file_name(char *splitted)
 	char *file;
 
 	i = 0;
-	printf("str =  %s\n", splitted);
+	// printf("str =  %s\n", splitted);
 	while (splitted[i] == '<' || splitted[i] == '>')
 		i++;
 	if (!splitted[i])
@@ -37,18 +39,23 @@ static char	*file_name(char *splitted)
 		return (get_file_name(splitted));
 }
 
-t_files	*ft_redirection(char *line)
+t_cmd	*ft_redirection(char *line)
 {
+	t_cmd	*command;
 	t_files	*the_list;
 	int type;
 	char	**splitted; //// splitted by spaces
 	int		i;
+	int		n;
 	char	*file;
 
+	command = malloc(sizeof(t_cmd));
+	command->content = malloc(10 * sizeof(char *)); ////need to fix
 	the_list = NULL;
 	i = 0;
+	n = 0;
 	splitted = split_with_no_quotes(line, ' ');
-	while (splitted && splitted[i])
+	while (splitted[i])
 	{
 		if (splitted[i][0] == '<' || splitted[i][0] == '>')
 		{
@@ -69,7 +76,14 @@ t_files	*ft_redirection(char *line)
 			else
 				ft_lstadd_back(&the_list, ft_lstnew(file, type));
 		}
+		else
+		{
+			command->content[n] = ft_strdup(splitted[i]);
+			n++;
+		}
 		i++;
 	}
-	return (the_list);
+	command->content[n] = NULL;
+	command->redirect = the_list;
+	return (command);
 }

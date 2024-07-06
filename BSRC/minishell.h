@@ -17,11 +17,11 @@ enum RedirectionType {
     REDIR_APPEND      // >>
 };
 
-typedef struct s_tokens
+typedef struct s_cmd
 {
-	char		    *content;
-	struct s_tokens *next;
-}	t_tokens;
+	char		    **content;
+	struct s_files *redirect;
+}	t_cmd;
 
 typedef struct s_files
 {
@@ -74,7 +74,7 @@ char    *ft_exclude_quotes(char *str);
 bool    contains_cmd(char *line_chunk);
 
 bool	check_syntax(char *line);
-t_files	*ft_redirection(char *line);
+t_cmd	*ft_redirection(char *line);
 char	*joined_str(char *line);
 
 #endif
