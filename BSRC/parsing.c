@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/26 11:25:56 by almohame         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:12:05 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,10 @@ int main(int ac, char **av, char **env)
     while(42)
     {
         printf("minishell > \n");
-        line_chunk = get_next_line(0);
-        // cmd = split_with_no_quotes(str, '|');
-        i = 0;
         check_quotes(line_chunk);
-        while (line_chunk[ptr]) {
-        redirect = ms_get_next_redirect(line_chunk, '>', &ptr);
-        if (redirect) {
-            printf("Redirect: %s, Extra: %d\n", redirect->name, redirect->is_extra);
-            free(redirect->name);
-            free(redirect);
-        }
+        line_chunk = get_next_line(0);
+        cmd = split_with_no_quotes(line_chunk, '|');
+        i = 0;
         // while (cmd)
         // {
         //     printf("cmd[%d] = %s\n",i , cmd->content);
@@ -71,5 +64,4 @@ int main(int ac, char **av, char **env)
         //     return (1);
     }
     return (0);
-}
 }

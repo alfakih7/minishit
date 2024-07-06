@@ -10,12 +10,18 @@
 # include <readline/history.h>
 # include "../libft/SRC/libft.h"
 
+typedef struct s_pipcmd
+{
+	char		    *content;
+	struct s_pipcmd *next;
+}	t_pipcmd;
 
 typedef struct s_tokens
 {
 	char		    *content;
 	struct s_tokens *next;
 }	t_tokens;
+
 typedef struct s_cmd_chunk {
     t_tokens  *inputs;    // Linked list of input files or data
     t_tokens  *outputs;   // Linked list of output files or data
@@ -51,7 +57,7 @@ char	*get_ft_strchr(const char *s, int c);
 char	*get_ft_strjoin(char *s1, char *s2);
 char	*get_ft_strdup(char *s1);
 t_tokens	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_tokens **lst, t_tokens *new);
+void	ft_lstadd_back(t_tokens **lst, t_tokens *new1);
 int     ft_lstsize(t_tokens *lst);
 bool	contains_cmd(char *line_chunk);
 //tokenization functions and some utils functions and struct
