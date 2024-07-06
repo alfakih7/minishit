@@ -6,65 +6,53 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/06 14:12:05 by asid-ahm         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/06 13:25:30 by almohame         ###   ########.fr       */
->>>>>>> a4b2dc10ed913bb06494c8a21b0ab47b167ccf68
+/*   Updated: 2024/07/06 20:01:56 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
-// int main(int ac, char **av, char **env)
-// {
-//     t_tokens *cmd;
-//     char *str;
-//     int   i;
+static	void	printlist(t_files *file)
+{
+	while (file)
+	{
+		printf("type = %d  file_name = %s\n", file->type, file->file_name);
+		file = file->next;
+	}
+}
 
-//     while(42)
-//     {
-//         printf("minishell > \n");
-//         str = get_next_line(0);
-//         check_quotes(str);
-//         cmd = split_with_no_quotes(str, '|');
-//         i = 0;
-//         check_quotes(str);
-//         while (cmd)
-//         {
-//             printf("cmd[%d] = %s\n",i , cmd->content);
-//             cmd = cmd->next;
-//             i++;
-//         }
-//         printf("num of pipes = %d\n", split_with_no_quotes_len(str, '|'));
-//         if (ft_strchr(str, '\"'))
-//             return (1);
-//     }
-//     return (0);
-// }
+int main(int argc, char **argv, char **envp)
+{
+	int			i;
+	t_files		*redirections;
+	char		*line_chunk;
+	char		**cmd; //splitted by pipes
 
-
-int main(int argc, char **argv, char **envp) {
-    char *line_chunk;
-    t_cmd_chunk **commands;
-    char **pipelines;
-    int i = 0;
-
-    while (1) {
+	i = -1;
+    while (1)
+	{
         printf("minishell > \n");
-        check_quotes(line_chunk);
         line_chunk = get_next_line(0);
-        cmd = split_with_no_quotes(line_chunk, '|');
-        i = 0;
-        // while (cmd)
-        // {
-        //     printf("cmd[%d] = %s\n",i , cmd->content);
-        //     cmd = cmd->next;
-        //     i++;
-        // }
-        // printf("num of pipes = %d\n", split_with_no_quotes_len(str, '|'));
-        // if (ft_strchr(str, '\"'))
-        //     return (1);
+		if (line_chunk)
+        {
+			check_quotes(line_chunk);
+			if (!check_syntax(line_chunk))
+				ft_putstr_fd("syntax error", 2);
+			else
+			{
+				cmd = split_with_no_quotes(line_chunk, '|');
+				if (cmd)
+				{
+					redirections = ft_redirection(joined_str(cmd[0]));
+					printlist(redirections);
+					if (!cmd)
+						return (1);
+					// while (cmd && cmd[++i])
+					// 	printf("cmd [%d] = %s\n", i, cmd[i]);
+				}
+			}
+		}
     }
 
     return 0;

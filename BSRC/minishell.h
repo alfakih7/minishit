@@ -10,11 +10,12 @@
 # include <readline/history.h>
 # include "../libft/SRC/libft.h"
 
-typedef struct s_pipcmd
-{
-	char		    *content;
-	struct s_pipcmd *next;
-}	t_pipcmd;
+enum RedirectionType {
+    REDIR_IN,         // <
+    REDIR_HEREDOC,    // <<
+    REDIR_OUT,        // >
+    REDIR_APPEND      // >>
+};
 
 typedef struct s_tokens
 {
@@ -22,19 +23,12 @@ typedef struct s_tokens
 	struct s_tokens *next;
 }	t_tokens;
 
-typedef struct s_cmd_chunk {
-    t_list  *inputs;    // Linked list of input files or data
-    t_list  *outputs;   // Linked list of output files or data
-    char    **cmd;        // Full command associated with this chunk
-    int       out_fd;     // Output file descriptor
-    int       in_fd;      // Input file descriptor
-}   t_cmd_chunk;
-
-typedef struct s_file
+typedef struct s_files
 {
-    char    *name;
-    bool    is_extra;
-}   t_file;
+	int				type;
+	char		    *file_name;
+	struct s_files *next;
+}	t_files;
 
 typedef struct s_split_positions {
     int     *positions;      // Array to store positions of the delimiter
@@ -51,7 +45,6 @@ typedef struct s_split_vars {
     char    **content;       // Array to store resulting substrings
 }   t_split_vars;
 
-<<<<<<< HEAD
 int update_quote_state(char current_char , int *quote_state);
 char	*get_next_line(int fd);
 int	check_quotes(char *command);
@@ -59,35 +52,17 @@ char	*chrskip(char *s, char c);
 int	split_with_no_quotes_len(char *line, int c);
 void ft_split_destroy(char **split_array);
 // char	**split_with_no_quotes(char *line, int c);
-t_tokens *split_with_no_quotes(char *line, int c);
+char **split_with_no_quotes(char *line, int c);
 int *ms_char_positions(char *line, int c);
 size_t	get_ft_strlen(char *str);
 char	*get_ft_strchr(const char *s, int c);
 char	*get_ft_strjoin(char *s1, char *s2);
 char	*get_ft_strdup(char *s1);
-t_tokens	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_tokens **lst, t_tokens *new1);
-int     ft_lstsize(t_tokens *lst);
+t_files	*ft_lstnew(void *content, int type);
+void	ft_lstadd_back(t_files **lst, t_files *new1);
+int     ft_lstsize(t_files *lst);
 bool	contains_cmd(char *line_chunk);
 //tokenization functions and some utils functions and struct
-=======
-int     update_quote_state(char current_char , int *quote_state);
-char    *get_next_line(int fd);
-int     check_quotes(char *command);
-char    *chrskip(char *s, char c);
-int     split_with_no_quotes_len(char *line, int c);
-void    ft_split_destroy(char **split_array);
-char **split_with_no_quotes(char *line, int c);
-int     *ms_char_positions(char *line, int c);
-size_t  get_ft_strlen(char *str);
-char    *get_ft_strchr(const char *s, int c);
-char    *get_ft_strjoin(char *s1, char *s2);
-char    *get_ft_strdup(char *s1);
-t_list *ft_lstnew(void *content);
-void    ft_lstadd_back(t_list **lst, t_list *new);
-int     ft_lstsize(t_list *lst);
-bool    contains_cmd(char *line_chunk);
->>>>>>> a4b2dc10ed913bb06494c8a21b0ab47b167ccf68
 typedef struct s_inside
 {
     bool quotes;    // Tracks if currently inside single quotes
@@ -96,15 +71,10 @@ typedef struct s_inside
 
 bool    ft_is_space(char c);
 char    *ft_exclude_quotes(char *str);
-t_file  *ms_get_next_redirect(char *line_chunk, char type, int *ptr);
-char    *ft_skip_spaces(char *str);
-bool    contains_redirect(char *line_chunk, char type);
-char    *ms_get_cmd(char *line_chunk);
-char    **ms_get_fullcmd(char *line_piece, int *ptr);
-t_cmd_chunk **ms_command_chunks_get(char **line_pieces, size_t amount);
-void    t_file_destroy(void *file);
-void    ft_lstclear(t_list **lst, void (*del)(void *));
-void    ms_clean(t_cmd_chunk **chunks, char **string_chunks, char *line);
 bool    contains_cmd(char *line_chunk);
+
+bool	check_syntax(char *line);
+t_files	*ft_redirection(char *line);
+char	*joined_str(char *line);
 
 #endif

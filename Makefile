@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: almohame <almohame@student.42.fr>          +#+  +:+       +#+         #
+#    By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 17:14:53 by asid-ahm          #+#    #+#              #
-#    Updated: 2024/07/06 07:11:11 by almohame         ###   ########.fr        #
+#    Updated: 2024/07/06 16:56:06 by asid-ahm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 
 CC = cc
-# CFLAGS = -Wall -Werror -Wextra -I.
-CFLAGS = -I.
+CFLAGS =  -g3 -fsanitize=address
+# CFLAGS = -I.
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a

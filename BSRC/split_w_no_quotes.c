@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 11:45:17 by almohame         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:59:54 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ char **split_with_no_quotes(char *line, int c)
     
     // Calculate the number of segments (content_size) and their positions
     vars.content_size = split_with_no_quotes_len(line, c) + 1;
+	if (vars.content_size == 1)
+		return (NULL);
     vars.positions = ms_char_positions(line, c);
     
     // Return NULL if 'ms_char_positions' fails to allocate 'positions'
