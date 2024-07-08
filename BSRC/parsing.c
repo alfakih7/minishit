@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 22:24:06 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:51:04 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int main(int argc, char **argv, char **envp)
 				cmd = split_with_no_quotes(line_chunk, '|');
 				if (cmd)
 				{
+					
 					redirections = ft_redirection(joined_str(cmd[0]));
 					// printf("waa");
 					printlist(redirections->redirect);

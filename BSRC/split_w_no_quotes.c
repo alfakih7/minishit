@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 16:59:54 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:32:58 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,25 +136,28 @@ char **split_with_no_quotes(char *line, int c)
     // Initialize variables in 'vars' structure
     vars.c = c;
     vars.line = line;
-    
+
     // Calculate the number of segments (content_size) and their positions
     vars.content_size = split_with_no_quotes_len(line, c) + 1;
-	if (vars.content_size == 1)
-		return (NULL);
-    vars.positions = ms_char_positions(line, c);
     
-    // Return NULL if 'ms_char_positions' fails to allocate 'positions'
+    // If there are no delimiters, handle it by returning the original string in an array
+    if (vars.content_size == 1)
+    {
+        vars.content = malloc(sizeof(char *) * 2); // Allocate space for one string and a NULL terminator
+        if (!vars.content)
+            return (NULL);
+        vars.content[0] = ft_strdup(line); // Duplicate the original string
+        vars.content[1] = NULL; // NULL terminate the array
+        return vars.content;
+    }
+
+    vars.positions = ms_char_positions(line, c);
     if (!vars.positions)
         return (NULL);
-    
-    // Allocate memory for 'content' array of string pointers
+
     vars.content = malloc(sizeof(char *) * (vars.content_size + 1));
-    
-    // Populate 'content' array with substrings, ignoring delimiters inside quotes
     if (!fill_content(&vars))
         return (NULL);
-    
-    // Clean up 'positions' array and return 'content' array
+
     return (free(vars.positions), (vars.content));
 }
-

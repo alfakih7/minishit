@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:29:37 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 07:44:45 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:13:47 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static char *get_file_name(char *splitted)
 static char	*file_name(char *splitted)
 {
 	int	i;
-	char *file;
-
 	i = 0;
 	// printf("str =  %s\n", splitted);
 	while (splitted[i] == '<' || splitted[i] == '>')
