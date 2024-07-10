@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 13:27:14 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/04 02:33:27 by louisalah        ###   ########.fr       */
+/*   Created: 2024/07/06 14:16:47 by asid-ahm          #+#    #+#             */
+/*   Updated: 2024/07/10 12:51:43 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	check_pipe(char *line, int i)
 	while (line[i] && j <= i)
 	{
 		if (line[j] != ' ')
-			break;
+			break ;
 		j++;
 	}
 	if (j == i)

@@ -6,12 +6,12 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 18:43:02 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/03 08:29:08 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/06 21:15:18 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <stdio.h>
 char	*ft_strdup(const char *s1)
 {
 	size_t	i;

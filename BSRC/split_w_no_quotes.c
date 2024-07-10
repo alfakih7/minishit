@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/01 13:25:31 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:52:01 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
  * Parameters:
  *   char **split_array - Pointer to an array of strings (char *) to be freed.
  */
+
 void ft_split_destroy(char **split_array) {
     if (split_array) {
         // Iterate through the array until NULL terminator is encountered
@@ -120,23 +121,8 @@ static bool fill_content(t_split_vars *vars)
 
 /////// given the pipe as a token
 
-t_tokens *tokens_1(char **str)
-{
-    t_tokens    *tokens_arr;
-    int     i;
 
-    i = 0;
-	if (str && str[0])
-		tokens_arr = ft_lstnew(str[0]);
-	while(str[++i])
-	{
-		// ft_lstadd_back(&tokens_arr, ft_lstnew("|"));
-		ft_lstadd_back(&tokens_arr, ft_lstnew(str[i]));
-	}
-	return (tokens_arr);
-}
-
-char	**split_with_no_quotes(char *line, int c)
+char **split_with_no_quotes(char *line, int c)
 {
     t_split_vars vars;
 
@@ -151,23 +137,28 @@ char	**split_with_no_quotes(char *line, int c)
     // Initialize variables in 'vars' structure
     vars.c = c;
     vars.line = line;
-    
+
     // Calculate the number of segments (content_size) and their positions
     vars.content_size = split_with_no_quotes_len(line, c) + 1;
-    vars.positions = ms_char_positions(line, c);
     
-    // Return NULL if 'ms_char_positions' fails to allocate 'positions'
+    // If there are no delimiters, handle it by returning the original string in an array
+    if (vars.content_size == 1)
+    {
+        vars.content = malloc(sizeof(char *) * 2); // Allocate space for one string and a NULL terminator
+        if (!vars.content)
+            return (NULL);
+        vars.content[0] = ft_strdup(line); // Duplicate the original string
+        vars.content[1] = NULL; // NULL terminate the array
+        return vars.content;
+    }
+
+    vars.positions = ms_char_positions(line, c);
     if (!vars.positions)
         return (NULL);
-    
-    // Allocate memory for 'content' array of string pointers
+
     vars.content = malloc(sizeof(char *) * (vars.content_size + 1));
-    
-    // Populate 'content' array with substrings, ignoring delimiters inside quotes
     if (!fill_content(&vars))
         return (NULL);
-    
-    // Clean up 'positions' array and return 'content' array
+
     return (free(vars.positions), (vars.content));
 }
-

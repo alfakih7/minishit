@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+         #
+#    By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 17:14:53 by asid-ahm          #+#    #+#              #
-#    Updated: 2024/06/26 07:52:36 by louisalah        ###   ########.fr        #
+#    Updated: 2024/07/10 08:08:05 by asid-ahm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,9 @@ YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 
 CC = cc
-# CFLAGS = -Wall -Werror -Wextra -I.
-CFLAGS = -I.
+CFLAGS =  -g3 -fsanitize=address
+# CFLAGS =  -Wall -Wextra -Werror
+# CFLAGS = -I.
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -30,29 +31,28 @@ SOURCES = $(shell find $(SRCDIR) -type f -name '*.c')
 OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 all: $(NAME)
-	@-echo $(GREEN_B)"\n$(NAME) is Compiled.🐢 \n"$(RESET)
+	@echo $(GREEN_B)"\n$(NAME) is Compiled.🐢 \n"$(RESET)
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	@-$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -L$(LIBFT_DIR) -lft 
+	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -L$(LIBFT_DIR) -lft 
 
 $(LIBFT):
-	@-make -C $(LIBFT_DIR)
-	@-echo $(YELLOW)".\c"$(RESET)
+	@make -C $(LIBFT_DIR)
+	@echo $(YELLOW)".\c"$(RESET)
 	
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@-mkdir -p $(OBJDIR)
-	@-$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@-rm -rf $(OBJDIR)
-	@-make -C $(LIBFT_DIR) clean
-	@-echo $(YELLOW)"Cleaned"$(RESET)
+	@rm -rf $(OBJDIR)
+	@make -C $(LIBFT_DIR) clean
+	@echo $(YELLOW)"Cleaned"$(RESET)
 
-	
 fclean: clean
-	@-rm -rf $(NAME)
-	@-make -C $(LIBFT_DIR) fclean
-	@-echo $(YELLOW)"Fully cleaned"$(RESET)
+	@rm -rf $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@echo $(YELLOW)"Fully cleaned"$(RESET)
 
 re: fclean all
 

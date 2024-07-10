@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 15:52:03 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/01/13 14:21:50 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:33:24 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strchr(const char *s, int c)
 
 	x = c;
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (s[i] && s[i] != x)
 		i++;
 	if (s[i] == '\0' && x != 0)
