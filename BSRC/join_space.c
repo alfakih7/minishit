@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:03:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 18:27:59 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:22:51 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char *joined_str(char *line)
 	while (line[i])
 	{
 		c = line[i];
-		if (is_special(c) && (ft_inside_quotes == 1))
+		if (is_special(c) && (ft_inside_quotes == 1)) /////this not working
 		{
 			result[n++] = ' ';
 			c = line[i];

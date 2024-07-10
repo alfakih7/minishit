@@ -6,7 +6,7 @@
 #    By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 17:14:53 by asid-ahm          #+#    #+#              #
-#    Updated: 2024/07/06 16:56:06 by asid-ahm         ###   ########.fr        #
+#    Updated: 2024/07/10 08:08:05 by asid-ahm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ RESET = "\033[0m"
 
 CC = cc
 CFLAGS =  -g3 -fsanitize=address
+# CFLAGS =  -Wall -Wextra -Werror
 # CFLAGS = -I.
 
 LIBFT_DIR = ./libft

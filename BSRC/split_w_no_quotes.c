@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 09:32:58 by almohame         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:40:38 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
  * Parameters:
  *   char **split_array - Pointer to an array of strings (char *) to be freed.
  */
+
 void ft_split_destroy(char **split_array) {
     if (split_array) {
         // Iterate through the array until NULL terminator is encountered

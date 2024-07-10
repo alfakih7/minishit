@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:24:23 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 19:10:04 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/10 08:40:08 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ static char	*replace(char *str, char **my_env)
 	while (str[i] != '$')
 		i++;
 	if (!str[++i])
+	{
 		return (str);
+	}
 	the_num = envcmp(str, my_env);
 	if (the_num == 9999999999999)
 		return (NULL);
@@ -108,6 +110,8 @@ char	*expansion(char **env, char *line)
 	}
 	my_env = array_dup(env);
 	if (ft_strchr(line, '$'))
+	{
 		line = replace(line, my_env);
+	}
 	return(line);
 }
