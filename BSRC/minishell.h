@@ -11,6 +11,13 @@
 # include <readline/history.h>
 # include "../libft/SRC/libft.h"
 
+//struct for the env
+typedef struct s_env_node {
+    char *name;
+    char *value;
+} t_env_node;
+
+
 typedef struct s_tokens
 {
 	char		    *content;
@@ -33,7 +40,6 @@ typedef struct s_split_vars {
 } t_split_vars;
 
 int			update_quote_state(char current_char , int *quote_state);
-int			echo(char **cmd);
 char		*get_next_line(int fd);
 int			check_quotes(char *command);
 char		*chrskip(char *s, char c);
@@ -52,4 +58,10 @@ void		ft_free(void *one_p, char **two_p);
 char		**get_path(char **env);
 void		execute(char *av, char **env);
 bool		check_syntax(char *line);
+//builtins functions
+void pwd();
+int			echo(char **cmd);
+void ft_exit(int status);
+void cd();
+void cd_2(char *previous_dir);
 #endif

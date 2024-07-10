@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 11:09:58 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/09 19:03:09 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int ac, char **av, char **env)
 	char		*str;
 	int			i;
 
+    i = -1;
 	if (ac == 1)
 	{
 		while (42)
@@ -29,9 +30,15 @@ int	main(int ac, char **av, char **env)
 			check_quotes(str);
 			if (check_syntax(str))
 			{
+                cd();
+                //-
 				cmd = split_with_no_quotes(str, '|');
-				echo(ft_split(cmd->content, ' '));
-				i = 0;
+                // if (++i)
+                    // cd("/Users/almohame/Desktop");
+                // else
+                    // cd_2("/Users/almohame/");
+                // pwd();
+				// echo(ft_split(cmd->content, ' '));
 				check_quotes(str);
 				// // cmd = cmd->next->next;
 				// printf("(%s)\n", cmd->content);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 08:08:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 11:56:01 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/06 13:50:17 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <sys/_types/_size_t.h>
 
 static int	last_arg(char**cmd)
