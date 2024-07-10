@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:24:23 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/10 08:40:08 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:38:48 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ static long	envcmp(char *str, char **my_env)
 	int	i;
 	int	n;
 	int	x;
-	int	which;
 	int	temp;
 
 	x = 0;
 	n = 0;
-	which = 0;
 	i = 0;
 	while (str[x] != '$')
 		x++;
@@ -55,14 +53,10 @@ static long	envcmp(char *str, char **my_env)
 		while (my_env[i])
 		{
 			x = temp; n = 0;
-			while((str[x] && my_env[i][n] && str[x] == my_env[i][n]))
-			{
-				x++;
-				n++;
-			}
-			if (!str[x] && (my_env[i][n] == '=' || my_env[i][n] == '\0'))
+			while ((str[x] && my_env[i][n] && str[x] == my_env[i][n]))
+				(x++, n++);
+			if ((!str[x] || str[x] == ' ' || str[x] == '\"' || str[x] == '\'' || str[x] == '$') && (my_env[i][n] == '=' || my_env[i][n] == '\0'))
 				return (i);
-			which++;
 			i++;
 		}
 	}
@@ -75,6 +69,7 @@ static char	*replace(char *str, char **my_env)
 	int	i;
 	long	the_num;
 	char	*repl;
+	char	*str_after;
 
 	i = 0;
 	while (str[i] != '$')
@@ -84,8 +79,6 @@ static char	*replace(char *str, char **my_env)
 		return (str);
 	}
 	the_num = envcmp(str, my_env);
-	if (the_num == 9999999999999)
-		return (NULL);
 	i = 0;
 	while (str[i] != '$')
 		i++;
@@ -93,8 +86,18 @@ static char	*replace(char *str, char **my_env)
 	i = -1;
 	while (str[++i] != '$')
 		repl[i] = str[i];
-	repl[i] = '\0';
-	repl = ft_strjoin(repl, getenv(my_env[the_num]));
+	repl[i++] = '\0';
+	if (the_num != 9999999999999)
+		repl = ft_strjoin(repl, getenv(my_env[the_num]));
+	else
+	{
+		printf("we?\n");
+		repl = ft_strjoin(repl, NULL);
+	}
+	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"' && str[i] != '$')
+		i++;
+	if (str[i])
+		repl = ft_strjoin(repl, &str[i]);
 	return (repl);
 }
 
@@ -102,16 +105,23 @@ char	*expansion(char **env, char *line)
 {
 	char	**my_env;
 	long long	i;
+	int			size;
 
-	i = 0;
-	if (!line)
+	i = -1;
+	size = 0;
+	while (line[++i])
 	{
-		return (NULL);
+		if (line[i] == '$')
+			size++;
 	}
+	if (!line)
+		return (NULL);
 	my_env = array_dup(env);
+	i = -1;
 	if (ft_strchr(line, '$'))
 	{
-		line = replace(line, my_env);
+		while (++i < size)
+			line = replace(line, my_env);
 	}
-	return(line);
+	return (line);
 }
