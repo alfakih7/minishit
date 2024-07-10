@@ -3,50 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louisalah <louisalah@student.42.fr>        +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/04 01:17:45 by louisalah        ###   ########.fr       */
+/*   Updated: 2024/07/09 19:03:09 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/_types/_pid_t.h>
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-    t_tokens *cmd;
-    char *line_chunk;
-    int ptr = 0;
-	int	i;
-    t_file *redirect;
+	t_tokens	*cmd;
+	pid_t		pid;
+	char		*str;
+	int			i;
 
-    while(42)
-    {
-        line_chunk = get_next_line(0);
-		if (line_chunk)
+    i = -1;
+	if (ac == 1)
+	{
+		while (42)
 		{
-        	printf("minishell > ");
-			check_quotes(line_chunk);
-			if (!check_syntax(line_chunk))
-				ft_putstr_fd("syntax error near unexpected token\n", 2);
-			// cmd = tokens_1(split_with_no_quotes(line_chunk, '|'));
-			// while (line_chunk[ptr]) {
-			// redirect = ms_get_next_redirect(line_chunk, '>', &ptr);
-			// if (redirect) {
-			//     printf("Redirect: %s, Extra: %d\n", redirect->name, redirect->is_extra);
-			//     free(redirect->name);
-			//     free(redirect);
-			// }
-			i = 0;
-			// while (cmd)
-			// {
-			// 	printf("cmd[%d] = (%s)\n",i++ , cmd->content);
-			// 	cmd = cmd->next;
-			// }
-			// printf("num of pipes = %d\n", split_with_no_quotes_len(line_chunk, '|'));
-			// if (ft_strchr(line_chunk, '\"'))
-			// 	return (1);
+			printf("minishell > \n");
+			str = get_next_line(0);
+			check_quotes(str);
+			if (check_syntax(str))
+			{
+                cd();
+                //-
+				cmd = split_with_no_quotes(str, '|');
+                // if (++i)
+                    // cd("/Users/almohame/Desktop");
+                // else
+                    // cd_2("/Users/almohame/");
+                // pwd();
+				// echo(ft_split(cmd->content, ' '));
+				check_quotes(str);
+				// // cmd = cmd->next->next;
+				// printf("(%s)\n", cmd->content);
+				// pid = fork();
+				// if (!pid)
+				// 	execute(cmd->content, env);
+				// while (cmd)
+				// {
+				// 	printf("cmd[%d] = (%s)\n", i, cmd->content);
+				// 	cmd = cmd->next;
+				// 	i++;
+				// }
+				// printf("num of pipes = %d\n", split_with_no_quotes_len(str, '|'));
+				if (ft_strchr(str, '\"'))
+					return (1);
+			}
+			else 
+			{
+				ft_putstr_fd("syntax error\n", 2);
+			}
 		}
-    }
-    return (0);
+		return (0);
+	}
+	else
+	{	
+		ft_putstr_fd("to much arguments\n", 2);
+		return (1);
+	}
 }
+
+// Dummy implementation of get_next_line
