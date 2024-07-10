@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_space.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:03:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 11:18:40 by almohame         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:27:59 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,3 @@ char *joined_str(char *line)
 	result[n] = '\0';
 	return (result);
 }
-hg <h > jfd

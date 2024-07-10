@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 09:51:04 by almohame         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:12:55 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int main(int argc, char **argv, char **envp)
 	char		**cmd; //splitted by pipes
 
 	i = -1;
-    while (1)
+	while (1)
 	{
-        printf("minishell > \n");
-        line_chunk = get_next_line(0);
+		printf("minishell > \n");
+		line_chunk = get_next_line(0);
 		if (line_chunk)
-        {
+		{
 			check_quotes(line_chunk);
 			if (!check_syntax(line_chunk))
 				ft_putstr_fd("syntax error", 2);
@@ -44,19 +44,14 @@ int main(int argc, char **argv, char **envp)
 				cmd = split_with_no_quotes(line_chunk, '|');
 				if (cmd)
 				{
-					
-					redirections = ft_redirection(joined_str(cmd[0]));
-					// printf("waa");
+					redirections = ft_redirection(envp, joined_str(cmd[0]));
 					printlist(redirections->redirect);
-					if (!cmd)
-						return (1);
-						i = -1;
+					i = -1;
 					while ((redirections->content && redirections->content[++i]))
 						printf("cmd [%d] = %s\n", i, redirections->content[i]);
 				}
 			}
 		}
-    }
-
+	}
     return 0;
 }

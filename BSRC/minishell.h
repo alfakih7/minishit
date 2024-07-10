@@ -74,7 +74,16 @@ char    *ft_exclude_quotes(char *str);
 bool    contains_cmd(char *line_chunk);
 
 bool	check_syntax(char *line);
-t_cmd	*ft_redirection(char *line);
+t_cmd	*ft_redirection(char **env, char *line);
 char	*joined_str(char *line);
+char	*expansion(char **env, char *line);
+
+
+typedef struct s_env
+{
+	char	*name;
+	char	*value;
+	struct s_env *next;
+}	t_env;
 
 #endif
