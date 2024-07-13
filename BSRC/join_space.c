@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:03:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/12 14:00:36 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:45:59 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 int ft_inside_quotes(t_inside *inside , int c){
 	if(c == '\'' && !inside->dquotes){
         inside->quotes = !inside->quotes;
-    }else if(c == '"' && !inside->quotes){
+    }else if(c == '\"' && !inside->quotes){
 			inside->dquotes = !inside->quotes;
 		}
 		return (1);
