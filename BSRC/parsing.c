@@ -6,11 +6,12 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 16:12:55 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 08:45:04 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
 #include <stdio.h>
 
 static	void	printlist(t_files *file)

@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:29:37 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/10 12:42:46 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 08:44:12 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static  void expand_file_name(t_files *files, char  **env)
 {
 	while (files)
 	{
-		files->file_name = expansion(env, files->file_name);
+		files->file_name = expansion(files->file_name, env);
 		files = files->next;
 	}
 }
@@ -92,7 +92,8 @@ t_cmd	*ft_redirection(char **env, char *line)
 	command->content = NULL;
 	the_list = NULL;
 	i = -1;
-	splitted = split_with_no_quotes(line, ' ');
+	splitted = split_with_no_quotes(line, ' ');  /////// 2 errors on split_with_no_quotes      1 = unclosed ' inside a ""  2 = the delemiters at the last are not trimmed 
+	// splitted = ft_split(line, ' ');
 	while (splitted[++i])
 	{
 		if (splitted[i][0] == '<' || splitted[i][0] == '>')
@@ -115,7 +116,8 @@ t_cmd	*ft_redirection(char **env, char *line)
 		{
 			if (splitted[i])
 			{
-				cmd = expansion(env, ft_strdup(splitted[i]));
+				// printf("splitted[%d] = (%s)\n", i, splitted[i]);
+				cmd = expansion(ft_strdup(splitted[i]), env);
 				command->content = fill_cmd(command->content, (cmd));
 			}
 		}

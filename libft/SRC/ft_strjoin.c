@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 08:10:52 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/08 14:53:23 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:01:19 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ char	*ft_strjoin(char *s1, char const *s2)
 	while (s2[counter])
 		d[i++] = s2[counter++];
 	d[i] = '\0';
-	free (s1);
+	// free (s1);
 	return (d);
 }

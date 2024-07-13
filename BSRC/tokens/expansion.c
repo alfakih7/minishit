@@ -6,122 +6,158 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:24:23 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/10 20:38:48 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 12:24:18 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-static char **array_dup(char **envp)
+static int	valid_dollar(char *str, int	i)
 {
-	char **my_env;
+	i++;
+	if (!str[i] || str[i] == ' ' || str[i] == '\"'
+		|| str[i] == '\'' || str[i] == '$')
+		return (0);
+	return (1);
+}
+static int	find_end_dollar(char *str)
+{
 	int i;
 
 	i = 0;
-	if (!envp && !*envp)
-		return (NULL);
-	while (envp[i])
-		i++;
-	my_env = malloc(sizeof(char *) * (i + 1));
-	if (!my_env)
-		return (NULL);
-	i = -1;
-	while (envp[++i])
-		my_env[i] = ft_strdup(envp[i]);
-	my_env[i] = NULL;
-	return (my_env);
+	while (str[i] && str[i] != ' ' && str[i] != '\"'
+		&& str[i] != '\'' && str[i] != '$')
+			i++;
+	return (i);
 }
-
-//////askjdh >kasdh $PATH "akskdjh$PWD" $kasjdh $ $
 
 static long	envcmp(char *str, char **my_env)
 {
 	int	i;
-	int	n;
-	int	x;
-	int	temp;
+	long	n;
 
-	x = 0;
 	n = 0;
 	i = 0;
-	while (str[x] != '$')
-		x++;
-	temp = ++x;
-	if (str[x])
+	while (my_env[n])
 	{
-		while (my_env[i])
+		i = 0;
+		while (str[i] == my_env[n][i])
 		{
-			x = temp; n = 0;
-			while ((str[x] && my_env[i][n] && str[x] == my_env[i][n]))
-				(x++, n++);
-			if ((!str[x] || str[x] == ' ' || str[x] == '\"' || str[x] == '\'' || str[x] == '$') && (my_env[i][n] == '=' || my_env[i][n] == '\0'))
-				return (i);
+			if (my_env[n][i] == '=')
+				return (n);
 			i++;
 		}
+		if (my_env[n][i] == '=')
+			return (n);
+		n++;
 	}
-		return (9999999999999); //// check $$$$
+	return (9999999999999);
 }
 
-
-static char	*replace(char *str, char **my_env)
+static	void	printlist(t_expand *the_expand)
 {
-	int	i;
-	long	the_num;
-	char	*repl;
-	char	*str_after;
+	while (the_expand)
+	{
+		// printf("the_expand = %s\n", the_expand->expand);
+		the_expand = the_expand->next;
+	}
+}
+static	int	size_of_expansions(char *line, t_expand **temp, char **env)
+{
+	t_inside	inside;
+	char		*str_temp;
+	int			i;
+	long		asd;
+	int			length;
+	int			start;
+	int			size_total;
 
 	i = 0;
-	while (str[i] != '$')
-		i++;
-	if (!str[++i])
+	size_total = ft_strlen(line);
+	while (line[i])
 	{
-		return (str);
-	}
-	the_num = envcmp(str, my_env);
-	i = 0;
-	while (str[i] != '$')
+		ft_inside_quotes(&inside, line[i]);
+		if (line[i] =='$' && valid_dollar(line, i) && (!inside.quotes))
+		{
+			start = i + 1;
+			length = find_end_dollar(&line[start]);
+			asd = envcmp(ft_substr(line, start,  length), env);
+			if (asd != 9999999999999)
+			{
+				str_temp = getenv(env[asd]);
+				expand_lstadd_back(temp, expand_lstnew((void *)str_temp));
+				// printf("lenth %d\n", length);
+				size_total += ft_strlen(str_temp) - (length + 1);
+			}
+			else
+			{
+				expand_lstadd_back(temp, expand_lstnew(NULL));
+				size_total -= (length + 1);
+			}
+		}
 		i++;
-	repl = malloc(i + 1);
-	i = -1;
-	while (str[++i] != '$')
-		repl[i] = str[i];
-	repl[i++] = '\0';
-	if (the_num != 9999999999999)
-		repl = ft_strjoin(repl, getenv(my_env[the_num]));
-	else
-	{
-		printf("we?\n");
-		repl = ft_strjoin(repl, NULL);
 	}
-	while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"' && str[i] != '$')
-		i++;
-	if (str[i])
-		repl = ft_strjoin(repl, &str[i]);
-	return (repl);
+	return (size_total);
 }
 
-char	*expansion(char **env, char *line)
+char	*expansion(char *line, char **env)
 {
-	char	**my_env;
-	long long	i;
-	int			size;
+	char		*the_dup;
+	int			size_total;
+	int			i;
+	int			n;
+	int			flag;
+	int			expand_conter;
+	t_expand	*temp;
+	t_inside	inside;
 
-	i = -1;
-	size = 0;
-	while (line[++i])
+	inside.quotes = 0;
+	inside.dquotes = 0;
+	i = 0;
+	n = 0;
+	flag = 0;
+	temp = NULL;
+	size_total = size_of_expansions(line, &temp, env);
+	the_dup = malloc(size_total + 1);
+	while (line[i])
 	{
-		if (line[i] == '$')
-			size++;
+		ft_inside_quotes(&inside, line[i]);
+		flag = 0;
+		if (line[i] =='$' && valid_dollar(line, i) && (!inside.quotes))
+		{
+			i++;
+			expand_conter = 0;
+			while(temp->expand && temp->expand[expand_conter])
+				the_dup[n++] = temp->expand[expand_conter++];
+			temp = temp->next;
+			while (line[i] && line[i] != ' ' && line[i] != '\"'
+					&& line[i] != '\'' && line[i] != '$')
+					{
+						// printf("123line[%d] = (%c) ,, inside quotes = (%d),, inside dquotes = (%d)\n", i, line[i], inside.quotes, inside.dquotes);
+						i++;
+					}
+			if (line[i] == '$')
+				flag = 1;
+			if (line[i] == '\'' || flag == '\"')
+				flag = 2;
+		}
+		if (flag)
+		{
+			ft_inside_quotes(&inside, line[i]);
+			if (line[i] =='$' && valid_dollar(line, i) && (!inside.quotes))
+				continue ;
+		}
+		// printf("456line[%d] = (%c) ,, inside quotes = (%d),, inside dquotes = (%d)\n", i, line[i], inside.quotes, inside.dquotes);
+		the_dup[n] = line[i];
+		if (!line[i])
+			break ;
+		n++;
+		i++;
 	}
-	if (!line)
-		return (NULL);
-	my_env = array_dup(env);
-	i = -1;
-	if (ft_strchr(line, '$'))
-	{
-		while (++i < size)
-			line = replace(line, my_env);
-	}
-	return (line);
+	the_dup[n] = '\0';
+	printlist(temp);
+	printf("size = %d\n", size_total);
+	return (the_dup);
 }

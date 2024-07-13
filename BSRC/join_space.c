@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:03:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/10 08:22:51 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:00:36 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-static int ft_inside_quotes(t_inside *inside , int c){
+int ft_inside_quotes(t_inside *inside , int c){
 	if(c == '\'' && !inside->dquotes){
         inside->quotes = !inside->quotes;
     }else if(c == '"' && !inside->quotes){
@@ -24,6 +24,7 @@ static int ft_inside_quotes(t_inside *inside , int c){
 		}
 		return (1);
 }
+
 static int	is_special(char c)
 {
 	if (c == '<' || c == '>' || c == '|')

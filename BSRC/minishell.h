@@ -30,6 +30,12 @@ typedef struct s_files
 	struct s_files *next;
 }	t_files;
 
+typedef struct s_expand
+{
+	char		    *expand;
+	struct s_expand *next;
+}	t_expand;
+
 typedef struct s_split_positions {
     int     *positions;      // Array to store positions of the delimiter
     int     current_index;   // Current index in the positions array
@@ -59,6 +65,7 @@ char	*get_ft_strchr(const char *s, int c);
 char	*get_ft_strjoin(char *s1, char *s2);
 char	*get_ft_strdup(char *s1);
 t_files	*ft_lstnew(void *content, int type);
+char	*expansion(char *line, char **env);
 void	ft_lstadd_back(t_files **lst, t_files *new1);
 int     ft_lstsize(t_files *lst);
 bool	contains_cmd(char *line_chunk);
@@ -76,7 +83,10 @@ bool    contains_cmd(char *line_chunk);
 bool	check_syntax(char *line);
 t_cmd	*ft_redirection(char **env, char *line);
 char	*joined_str(char *line);
-char	*expansion(char **env, char *line);
+char	*expansion(char *line, char **env);
+int		ft_inside_quotes(t_inside *inside , int c);
+void	expand_lstadd_back(t_expand **lst, t_expand *new1);
+t_expand	*expand_lstnew(void *content);
 
 
 typedef struct s_env
