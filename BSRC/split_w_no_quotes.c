@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/10 12:40:38 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:11:25 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char **split_with_no_quotes(char *line, int c)
         vars.content = malloc(sizeof(char *) * 2); // Allocate space for one string and a NULL terminator
         if (!vars.content)
             return (NULL);
-        vars.content[0] = ft_strdup(line); // Duplicate the original string
+        vars.content[0] = ft_strdup(ft_strtrim(line, " ")); // Duplicate the original string
         vars.content[1] = NULL; // NULL terminate the array
         return vars.content;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 04:14:10 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/26 04:14:13 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:04:32 by almohame         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	split_with_no_quotes_len(char *line, int c)
 			while (line[i + 1] == c)
 				i++;
 		}
-		else if (line[i] == '\'')
+		else if (line[i] == '\'' && !inside_dquotes)
 			inside_quotes = !inside_quotes;
-		else if (line[i] == '\"')
+		else if (line[i] == '\"' && !inside_quotes)
 			inside_dquotes = !inside_dquotes;
 	}
 	return (free(line), len);
@@ -109,11 +109,11 @@ int *ms_char_positions(char *line, int c)
                 i++;
         }
         // Toggle the inside_dquotes flag if double quote is encountered
-        else if (line[i] == '\"')
+        else if (line[i] == '\"' && !vars.inside_quotes)
             vars.inside_dquotes = !vars.inside_dquotes;
         
         // Toggle the inside_quotes flag if single quote is encountered
-        else if (line[i] == '\'')
+        else if (line[i] == '\'' && !vars.inside_dquotes)
             vars.inside_quotes = !vars.inside_quotes;
     }
     
