@@ -10,6 +10,14 @@
 # include <readline/history.h>
 # include "../libft/SRC/libft.h"
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 enum RedirectionType {
     REDIR_IN,         // <
     REDIR_HEREDOC,    // <<
@@ -80,11 +88,10 @@ char	*joined_str(char *line);
 char	*expansion(char **env, char *line);
 
 
-typedef struct s_env
-{
-	char	*name;
-	char	*value;
-	struct s_env *next;
-}	t_env;
+typedef struct s_env_node {
+    char *name;
+    char *value;
+    struct s_env_node *next;
+} t_env_node;
 
 #endif
