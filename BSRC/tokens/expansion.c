@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:24:23 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/13 15:41:31 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:53:52 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,7 @@ char	*expansion(char *line, char **env)
 			temp = temp->next;
 			while (line[i] && line[i] != ' ' && line[i] != '\"'
 					&& line[i] != '\'' && line[i] != '$')
-					{
-						printf("123line[%d] = (%c) ,, inside quotes = (%d),, inside dquotes = (%d)\n", i, line[i], inside.quotes, inside.dquotes);
 						i++;
-					}
 			if (line[i] == '$')
 				flag = 1;
 			if (line[i] == '\'' || flag == '\"')
@@ -149,7 +146,6 @@ char	*expansion(char *line, char **env)
 			if (line[i] =='$' && valid_dollar(line, i) && (!inside.quotes))
 				continue ;
 		}
-		printf("456line[%d] = (%c) ,, inside quotes = (%d),, inside dquotes = (%d)\n", i, line[i], inside.quotes, inside.dquotes);
 		the_dup[n] = line[i];
 		if (!line[i])
 			break ;
