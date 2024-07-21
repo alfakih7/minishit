@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/20 22:58:35 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:42:41 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,10 @@ int main(int argc, char **argv, char **envp)
     		n = -1;
             while (cmd[++n])
             {
-                printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
 				temp = joined_str(cmd[n]);
                 redirections = ft_redirection(envp, temp);
+				///// this is the parsing part	
+                printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
                 printf(ANSI_COLOR_YELLOW "----- Redirections -----\n" ANSI_COLOR_RESET);
                 printlist(redirections->redirect);
                 printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
