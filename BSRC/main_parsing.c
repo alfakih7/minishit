@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/21 14:42:41 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:41:10 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int main(int argc, char **argv, char **envp)
         {
             cmd = split_with_no_quotes(line_chunk, '|');
     		n = -1;
-            while (cmd[++n])
+            while (cmd && cmd[++n])
             {
 				temp = joined_str(cmd[n]);
                 redirections = ft_redirection(envp, temp);
