@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:16:47 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/06 14:17:10 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:13:41 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,26 @@ bool	check_syntax(char *line)
 	{
 		while (line[i])
 		{
-			if (!if_quotes && line[i] == '\'')
+			if (line[i] && !if_quotes && line[i] == '\'')
 				(i++, if_quotes = 1);
-			if (!if_quotes && line[i] == '\"')
+			if (line[i] && !if_quotes && line[i] == '\"')
 				(i++, if_quotes = 2);
-			if ((if_quotes == 1 && line[i] == '\''))
+			if (line[i] && (if_quotes == 1 && line[i] == '\''))
 				(i++, if_quotes = 0);
-			if ((if_quotes == 2 && line[i] == '\"'))
+			if (line[i] && (if_quotes == 2 && line[i] == '\"'))
 				(i++, if_quotes = 0);
-			if (!if_quotes && (line[i] == '>' || line[i] =='<'))
+			if (line[i] && !if_quotes && (line[i] == '>' || line[i] =='<'))
 			{
 				if (!check_redirection(line, i))
 					return (false);
 			}
-			else if (!if_quotes && line[i] == '|')
+			else if (line[i] && !if_quotes && line[i] == '|')
 			{
 				if (!check_pipe(line, i))
 					return (false);
 			}
+			if (!line[i])
+				break;
 			i++;
 		}
 	}

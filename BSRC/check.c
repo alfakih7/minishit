@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:10:29 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/25 17:10:31 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:07:17 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_quotes(char *command)
 
 	cur = 0;
 	in_quotes = 0;
-	while (command[cur])
+	while (command && command[cur])
 	{
 		update_quote_state(command[cur], &in_quotes);
 		cur++;

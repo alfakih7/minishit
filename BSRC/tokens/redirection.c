@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:29:37 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/13 08:44:12 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:37:19 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,15 @@ static char	**fill_cmd(char **command, char *cont)
 	}
 	new_cmd = malloc(sizeof(char *) * (size + 2));
 	if (!new_cmd)
-	{
 		return (NULL);
-	}
 	if (command)
 	{
 		while (command[i])
 		{
-			new_cmd[i] = command[i];
+			new_cmd[i] = ft_strdup(command[i]);
 			i++;
 		}
+		ft_free(NULL, command);
 	}
 	new_cmd[i++] = cont;
 	new_cmd[i] = NULL;
@@ -94,7 +93,7 @@ t_cmd	*ft_redirection(char **env, char *line)
 	i = -1;
 	splitted = split_with_no_quotes(line, ' ');  /////// 2 errors on split_with_no_quotes      1 = unclosed ' inside a ""  2 = the delemiters at the last are not trimmed 
 	// splitted = ft_split(line, ' ');
-	while (splitted[++i])
+	while (splitted && splitted[++i])
 	{
 		if (splitted[i][0] == '<' || splitted[i][0] == '>')
 		{
@@ -108,7 +107,7 @@ t_cmd	*ft_redirection(char **env, char *line)
 				type = REDIR_OUT;
 			file = (file_name(splitted[i]));
 			if (!file)
-				ft_lstadd_back(&the_list, ft_lstnew(splitted[++i], type));
+				ft_lstadd_back(&the_list, ft_lstnew(ft_strdup(splitted[++i]), type));
 			else
 				ft_lstadd_back(&the_list, ft_lstnew(file, type));
 		}
@@ -122,6 +121,7 @@ t_cmd	*ft_redirection(char **env, char *line)
 			}
 		}
 	}
+	ft_free(NULL, splitted);
 	expand_file_name(the_list, env);
 	command->redirect = the_list;
 	return (command);

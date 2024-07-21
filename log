@@ -1,0 +1,86 @@
+==813== Memcheck, a memory error detector
+==813== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==813== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==813== Command: ./minishell
+==813== 
+[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m[31msyntax error
+[0m==813== 
+==813== FILE DESCRIPTORS: 3 open at exit.
+==813== Open file descriptor 2: /home/vscode/src/log
+==813==    <inherited from parent>
+==813== 
+==813== Open file descriptor 1: /dev/pts/0
+==813==    <inherited from parent>
+==813== 
+==813== Open file descriptor 0:
+==813==    <inherited from parent>
+==813== 
+==813== 
+==813== HEAP SUMMARY:
+==813==     in use at exit: 266,018 bytes in 1,894 blocks
+==813==   total heap usage: 129,057 allocs, 127,163 frees, 53,655,535 bytes allocated
+==813== 
+==813== 9 bytes in 2 blocks are definitely lost in loss record 5 of 62
+==813==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==813==    by 0x10C011: ft_allo (in /home/vscode/src/minishell)
+==813==    by 0x10C0B7: ft_substr (in /home/vscode/src/minishell)
+==813==    by 0x10B172: size_of_expansions (expansion.c:82)
+==813==    by 0x10B2CA: expansion (expansion.c:118)
+==813==    by 0x10BAFE: ft_redirection (redirection.c:119)
+==813==    by 0x10A14B: main (parsing.c:113)
+==813== 
+==813== 16 bytes in 1 blocks are indirectly lost in loss record 9 of 62
+==813==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==813==    by 0x10B5D0: expand_lstnew (expansion_utils.c:28)
+==813==    by 0x10B1C6: size_of_expansions (expansion.c:86)
+==813==    by 0x10B2CA: expansion (expansion.c:118)
+==813==    by 0x10BAFE: ft_redirection (redirection.c:119)
+==813==    by 0x10A14B: main (parsing.c:113)
+==813== 
+==813== 32 (16 direct, 16 indirect) bytes in 1 blocks are definitely lost in loss record 14 of 62
+==813==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==813==    by 0x10B5D0: expand_lstnew (expansion_utils.c:28)
+==813==    by 0x10B1C6: size_of_expansions (expansion.c:86)
+==813==    by 0x10B2CA: expansion (expansion.c:118)
+==813==    by 0x10BAFE: ft_redirection (redirection.c:119)
+==813==    by 0x10A14B: main (parsing.c:113)
+==813== 
+==813== LEAK SUMMARY:
+==813==    definitely lost: 25 bytes in 3 blocks
+==813==    indirectly lost: 16 bytes in 1 blocks
+==813==      possibly lost: 0 bytes in 0 blocks
+==813==    still reachable: 0 bytes in 0 blocks
+==813==         suppressed: 265,977 bytes in 1,890 blocks
+==813== 
+==813== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 1 from 1)
+--813-- 
+--813-- used_suppression:     55 readline ignore_readline_leaks.txt:2 suppressed: 252,341 bytes in 1,886 blocks
+--813-- used_suppression:      1 add_history ignore_readline_leaks.txt:9 suppressed: 13,616 bytes in 1 blocks
+--813-- used_suppression:      3 rl ignore_readline_leaks.txt:15 suppressed: 20 bytes in 3 blocks
+==813== 
+==813== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 1 from 1)

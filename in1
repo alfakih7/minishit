@@ -1,0 +1,9 @@
+BOBJ
+BSRC
+Makefile
+a.out
+execute?
+in1
+in2
+libft
+minishell

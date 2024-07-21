@@ -87,6 +87,8 @@ char	*expansion(char *line, char **env);
 int		ft_inside_quotes(t_inside *inside , int c);
 void	expand_lstadd_back(t_expand **lst, t_expand *new1);
 t_expand	*expand_lstnew(void *content);
+char	*ft_getenv(char *the_env);
+void	ft_free(void *one_p, char **two_p);
 
 
 typedef struct s_env

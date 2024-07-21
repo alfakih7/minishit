@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/13 15:49:42 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/20 22:58:35 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
 #include <stdio.h>
 
 // Define ANSI escape codes for text color
@@ -44,35 +45,75 @@ static void printlist(t_files *file)
         file = file->next;
     }
 }
+void	ft_free(void *one_p, char **two_p)
+{
+	int	i;
 
+	i = -1;
+	if (one_p)
+	{
+		free(one_p);
+		one_p = NULL;
+	}
+	if (two_p)
+	{
+		while (two_p[++i])
+			free(two_p[i]);
+		free(two_p);
+		two_p = NULL;
+	}
+}
+void	free_cmd(t_cmd *cmd)
+{
+	t_files *temp;
+	
+	if (!cmd)
+		return ;
+	ft_free(NULL, cmd->content);
+	while (cmd->redirect)
+	{
+		ft_free(cmd->redirect->file_name, NULL);
+		temp = cmd->redirect->next;
+		free(cmd->redirect);
+		cmd->redirect = NULL;
+		cmd->redirect = temp;
+	}
+	free(cmd);
+}
 
 int main(int argc, char **argv, char **envp)
 {
     int         i;
+    int         n;
     t_cmd       *redirections;
     char        *line_chunk;
     char        **cmd; //splitted by pipes
+	char *temp;
 
     i = -1;
+	redirections = NULL;
+	line_chunk = NULL;
     while (1)
     {
-        printf(ANSI_COLOR_CYAN "minishell > " ANSI_COLOR_RESET);
-        fflush(stdout);  // Ensure the prompt is displayed immediately
-        line_chunk = get_next_line(0);
+        line_chunk = readline("\x1b[34mminishell > \x1b[0m");
         if (!line_chunk)
         {
+			clear_history();
             printf(ANSI_COLOR_RED "Error: Failed to read input.\n" ANSI_COLOR_RESET);
+			if (redirections)
+				free_cmd(redirections);
             break;
         }
-        check_quotes(line_chunk);
-        if (!check_syntax(line_chunk))
-            ft_putstr_fd(ANSI_COLOR_RED "syntax error\n" ANSI_COLOR_RESET, 2);
-        else
+		add_history(line_chunk);
+        if (!check_quotes(line_chunk) && check_syntax(line_chunk))
         {
             cmd = split_with_no_quotes(line_chunk, '|');
-            if (cmd)
+    		n = -1;
+            while (cmd[++n])
             {
-                redirections = ft_redirection(envp, joined_str(cmd[0]));
+                printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
+				temp = joined_str(cmd[n]);
+                redirections = ft_redirection(envp, temp);
                 printf(ANSI_COLOR_YELLOW "----- Redirections -----\n" ANSI_COLOR_RESET);
                 printlist(redirections->redirect);
                 printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
@@ -81,8 +122,24 @@ int main(int argc, char **argv, char **envp)
                 while ((redirections->content && redirections->content[++i]))
                     printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, redirections->content[i], ANSI_COLOR_RESET);
                 printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
+				free (temp);
+				if (redirections)
+					free_cmd(redirections);
+				redirections = NULL;
             }
+			ft_free(NULL,cmd);
         }
+		else
+		{
+			// printf("true = %d\n", check_quotes(line_chunk));
+			// printf("true = %d\n", check_syntax(line_chunk));
+			ft_putstr_fd(ANSI_COLOR_RED "syntax error\n" ANSI_COLOR_RESET, 2);
+			free(line_chunk);
+			line_chunk = NULL;
+		}
+		if (redirections)
+			free_cmd(redirections);
+		redirections = NULL;
     }
     return 0;
 }

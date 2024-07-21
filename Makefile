@@ -6,7 +6,7 @@
 #    By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 17:14:53 by asid-ahm          #+#    #+#              #
-#    Updated: 2024/07/10 08:08:05 by asid-ahm         ###   ########.fr        #
+#    Updated: 2024/07/20 17:09:50 by asid-ahm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 
 CC = cc
-CFLAGS =  -g3 -fsanitize=address
-# CFLAGS =  -Wall -Wextra -Werror
+CFLAGS =  -g3
+# CFLAGS =  -Wall -Wextra -Werror -lreadline
 # CFLAGS = -I.
 
 LIBFT_DIR = ./libft
@@ -34,7 +34,7 @@ all: $(NAME)
 	@echo $(GREEN_B)"\n$(NAME) is Compiled.🐢 \n"$(RESET)
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -L$(LIBFT_DIR) -lft 
+	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -L$(LIBFT_DIR) -lft  -lreadline
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
@@ -53,6 +53,9 @@ fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIR) fclean
 	@echo $(YELLOW)"Fully cleaned"$(RESET)
+	
+valgrind: $(NAME)
+	bash check_leaks.sh
 
 re: fclean all
 

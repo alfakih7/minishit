@@ -6,13 +6,11 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:03:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/13 15:52:59 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:31:56 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#include <string.h>
 #include <stdlib.h>
 
 int ft_inside_quotes(t_inside *inside , int c){
@@ -25,7 +23,7 @@ int ft_inside_quotes(t_inside *inside , int c){
 }
 static int	is_special(char c)
 {
-	if (c == '<' || c == '>' || c == '|')
+	if (c == '<' || c == '>')
 		return (1);
 	return (0);
 }
@@ -37,38 +35,43 @@ char *joined_str(char *line)
 	int		i;
 	int		n; /// name it better
 	char	c;
-	t_inside *inside;
+	t_inside inside;
 
-	inside = malloc(sizeof (t_inside));
-	inside->dquotes = 0;
-	inside->quotes = 0;
-
+	inside.dquotes = 0;
+	inside.quotes = 0;
 	i = 0;
 	size = ft_strlen(line);
 	while(line[i])
 	{
 		c = line[i];
-		if (is_special(c))
+		ft_inside_quotes(&inside , c);
+		if (is_special(c) && !inside.dquotes && !inside.quotes)
+		{
 			size++;
-		while(is_special(line[i]))
 			i++;
-		i++;
+			if (is_special(line[i]))
+				i++;
+		}
+		else
+			i++;
 	}
+	printf("size1 = %d\n", size);
 	result = malloc(size + 1);
 	i = 0;
 	n = 0;
 	while (line[i])
 	{
 		c = line[i];
-		ft_inside_quotes(inside , c);
+		ft_inside_quotes(&inside , c);
+		if (is_special(c) && !inside.dquotes && !inside.quotes)
 		{
-		if (is_special(c) && !(inside->dquotes || inside->quotes))
 			result[n++] = ' ';
-			c = line[i];
-			if (is_special(c))
+			result[n++] = line[i++];
+			if (is_special(line[i]))
 				result[n++] = line[i++];
 		}
-		result[n++] = line[i++];
+		else
+			result[n++] = line[i++];
 	}
 	result[n] = '\0';
 	return (result);

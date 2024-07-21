@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_w_no_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: almohame <almohame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:11:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/13 15:11:25 by almohame         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:41:11 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ static bool fill_content(t_split_vars *vars)
         
         // Create a substring from start_pos to the delimiter position
         vars->content[i] = ft_substr(start_pos, 0, get_length(vars->line, start_pos, vars->positions[i]));
-        
         // Check if ft_substr failed (returns NULL)
         if (!vars->content[i])
             return (free(vars->positions), ft_split_destroy(vars->content), false);
@@ -125,6 +124,7 @@ static bool fill_content(t_split_vars *vars)
 char **split_with_no_quotes(char *line, int c)
 {
     t_split_vars vars;
+	char *temp;
 
     // Skip leading occurrences of 'c' in 'line'
     while (*line == c)
@@ -147,7 +147,11 @@ char **split_with_no_quotes(char *line, int c)
         vars.content = malloc(sizeof(char *) * 2); // Allocate space for one string and a NULL terminator
         if (!vars.content)
             return (NULL);
-        vars.content[0] = ft_strdup(ft_strtrim(line, " ")); // Duplicate the original string
+		temp = ft_strtrim(line, " ");
+		if (!temp)
+			return (NULL);
+        vars.content[0] = ft_strdup(temp); // Duplicate the original string
+		free(temp);
         vars.content[1] = NULL; // NULL terminate the array
         return vars.content;
     }
