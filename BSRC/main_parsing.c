@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/21 14:42:41 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:26:35 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int main(int argc, char **argv, char **envp)
 {
     int         i;
     int         n;
-    t_cmd       *redirections;
+    t_cmd       *parsed_cmd;
     char        *line_chunk;
     char        **cmd; //splitted by pipes
 	char *temp;
 
     i = -1;
-	redirections = NULL;
+	parsed_cmd = NULL;
 	line_chunk = NULL;
     while (1)
     {
@@ -100,8 +100,8 @@ int main(int argc, char **argv, char **envp)
         {
 			clear_history();
             printf(ANSI_COLOR_RED "Error: Failed to read input.\n" ANSI_COLOR_RESET);
-			if (redirections)
-				free_cmd(redirections);
+			if (parsed_cmd)
+				free_cmd(parsed_cmd);
             break;
         }
 		add_history(line_chunk);
@@ -109,24 +109,24 @@ int main(int argc, char **argv, char **envp)
         {
             cmd = split_with_no_quotes(line_chunk, '|');
     		n = -1;
-            while (cmd[++n])
+            while (cmd && cmd[++n])
             {
 				temp = joined_str(cmd[n]);
-                redirections = ft_redirection(envp, temp);
+                parsed_cmd = ft_redirection(envp, temp);
 				///// this is the parsing part	
                 printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
-                printf(ANSI_COLOR_YELLOW "----- Redirections -----\n" ANSI_COLOR_RESET);
-                printlist(redirections->redirect);
+                printf(ANSI_COLOR_YELLOW "----- redirections -----\n" ANSI_COLOR_RESET);
+                printlist(parsed_cmd->redirect);
                 printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
                 i = -1;
                 printf(ANSI_COLOR_GREEN "-------- Commands -------\n" ANSI_COLOR_RESET);
-                while ((redirections->content && redirections->content[++i]))
-                    printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, redirections->content[i], ANSI_COLOR_RESET);
+                while ((parsed_cmd->content && parsed_cmd->content[++i]))
+                    printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, parsed_cmd->content[i], ANSI_COLOR_RESET);
                 printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
 				free (temp);
-				if (redirections)
-					free_cmd(redirections);
-				redirections = NULL;
+				if (parsed_cmd)
+					free_cmd(parsed_cmd);
+				parsed_cmd = NULL;
             }
 			ft_free(NULL,cmd);
         }
@@ -138,9 +138,9 @@ int main(int argc, char **argv, char **envp)
 			free(line_chunk);
 			line_chunk = NULL;
 		}
-		if (redirections)
-			free_cmd(redirections);
-		redirections = NULL;
+		if (parsed_cmd)
+			free_cmd(parsed_cmd);
+		parsed_cmd = NULL;
     }
     return 0;
 }
