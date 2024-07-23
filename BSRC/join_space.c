@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:03:07 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/20 21:31:56 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:04:20 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char *joined_str(char *line)
 		else
 			i++;
 	}
-	printf("size1 = %d\n", size);
 	result = malloc(size + 1);
 	i = 0;
 	n = 0;

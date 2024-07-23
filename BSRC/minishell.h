@@ -21,6 +21,7 @@ typedef struct s_cmd
 {
 	char		    **content;
 	struct s_files *redirect;
+	struct s_cmd *next;
 }	t_cmd;
 
 typedef struct s_files
@@ -91,6 +92,8 @@ char	*ft_getenv(char *the_env);
 void	ft_free(void *one_p, char **two_p);
 
 
+int	ft_cmdlstsize(t_cmd *lst);
+void	ft_cmdlstadd_back(t_cmd **lst, t_cmd *new1);
 typedef struct s_env
 {
 	char	*name;

@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/21 16:26:35 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:59:19 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,16 @@ void	ft_free(void *one_p, char **two_p)
 }
 void	free_cmd(t_cmd *cmd)
 {
-	t_files *temp;
-	
+	t_files	*temp;
+	t_cmd	*cmd_temp;
+
+	printf("got hear\n");
 	if (!cmd)
 		return ;
+	while (cmd)
+	{
 	ft_free(NULL, cmd->content);
+	cmd_temp = cmd;
 	while (cmd->redirect)
 	{
 		ft_free(cmd->redirect->file_name, NULL);
@@ -78,7 +83,32 @@ void	free_cmd(t_cmd *cmd)
 		cmd->redirect = NULL;
 		cmd->redirect = temp;
 	}
-	free(cmd);
+	cmd = cmd->next;
+	free(cmd_temp);
+	cmd_temp = NULL;
+	}
+}
+
+static void print_cmd(t_cmd *cmd)
+{
+	int	i;
+	int	n;
+
+	n = 0;
+	while (cmd)
+	{
+		printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
+		printf(ANSI_COLOR_YELLOW "----- redirections -----\n" ANSI_COLOR_RESET);
+		printlist(cmd->redirect);
+		printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
+		i = -1;
+		printf(ANSI_COLOR_GREEN "-------- Commands -------\n" ANSI_COLOR_RESET);
+		while ((cmd->content && cmd->content[++i]))
+			printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, cmd->content[i], ANSI_COLOR_RESET);
+		printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
+		cmd = cmd->next;
+		n++;
+	}	
 }
 
 int main(int argc, char **argv, char **envp)
@@ -105,35 +135,28 @@ int main(int argc, char **argv, char **envp)
             break;
         }
 		add_history(line_chunk);
-        if (!check_quotes(line_chunk) && check_syntax(line_chunk))
+		if (!check_quotes(line_chunk) && check_syntax(line_chunk))
         {
             cmd = split_with_no_quotes(line_chunk, '|');
     		n = -1;
             while (cmd && cmd[++n])
             {
 				temp = joined_str(cmd[n]);
-                parsed_cmd = ft_redirection(envp, temp);
+				ft_cmdlstadd_back(&parsed_cmd, ft_redirection(envp, temp));
+                // parsed_cmd = ft_redirection(envp, temp);
 				///// this is the parsing part	
-                printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
-                printf(ANSI_COLOR_YELLOW "----- redirections -----\n" ANSI_COLOR_RESET);
-                printlist(parsed_cmd->redirect);
-                printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
-                i = -1;
-                printf(ANSI_COLOR_GREEN "-------- Commands -------\n" ANSI_COLOR_RESET);
-                while ((parsed_cmd->content && parsed_cmd->content[++i]))
-                    printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, parsed_cmd->content[i], ANSI_COLOR_RESET);
-                printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
 				free (temp);
-				if (parsed_cmd)
-					free_cmd(parsed_cmd);
-				parsed_cmd = NULL;
+				// parsed_cmd = NULL;
             }
+			print_cmd(parsed_cmd);
+			if (parsed_cmd)
+				free_cmd(parsed_cmd);
+			parsed_cmd = NULL;
+			parsed_cmd = NULL;
 			ft_free(NULL,cmd);
         }
 		else
 		{
-			// printf("true = %d\n", check_quotes(line_chunk));
-			// printf("true = %d\n", check_syntax(line_chunk));
 			ft_putstr_fd(ANSI_COLOR_RED "syntax error\n" ANSI_COLOR_RESET, 2);
 			free(line_chunk);
 			line_chunk = NULL;
