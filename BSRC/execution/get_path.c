@@ -6,11 +6,11 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 12:30:00 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/03 05:08:25 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/24 03:19:28 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "../minishell.h"
 
 char	**get_path(char **env)
 {

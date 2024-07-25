@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/22 15:59:19 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:51:24 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
+
+// Save the current state of stdin and stdout
+void save_fd(int *saved_stdin, int *saved_stdout)
+{
+    *saved_stdin = dup(STDIN_FILENO);
+    *saved_stdout = dup(STDOUT_FILENO);
+}
+
+// Restore the saved state of stdin and stdout
+void restore_fd(int saved_stdin, int saved_stdout)
+{
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+    close(saved_stdin);
+    close(saved_stdout);
+}
 
 const char *redirection_type_to_string(enum RedirectionType type)
 {
@@ -68,7 +84,6 @@ void	free_cmd(t_cmd *cmd)
 	t_files	*temp;
 	t_cmd	*cmd_temp;
 
-	printf("got hear\n");
 	if (!cmd)
 		return ;
 	while (cmd)
@@ -92,12 +107,10 @@ void	free_cmd(t_cmd *cmd)
 static void print_cmd(t_cmd *cmd)
 {
 	int	i;
-	int	n;
 
-	n = 0;
 	while (cmd)
 	{
-		printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, n);
+		printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, cmd->cmd_num);
 		printf(ANSI_COLOR_YELLOW "----- redirections -----\n" ANSI_COLOR_RESET);
 		printlist(cmd->redirect);
 		printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
@@ -107,7 +120,6 @@ static void print_cmd(t_cmd *cmd)
 			printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, cmd->content[i], ANSI_COLOR_RESET);
 		printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
 		cmd = cmd->next;
-		n++;
 	}	
 }
 
@@ -119,8 +131,11 @@ int main(int argc, char **argv, char **envp)
     char        *line_chunk;
     char        **cmd; //splitted by pipes
 	char *temp;
+	int         saved_stdin;
+    int         saved_stdout;
 
     i = -1;
+    save_fd(&saved_stdin, &saved_stdout);
 	parsed_cmd = NULL;
 	line_chunk = NULL;
     while (1)
@@ -128,10 +143,11 @@ int main(int argc, char **argv, char **envp)
         line_chunk = readline("\x1b[34mminishell > \x1b[0m");
         if (!line_chunk)
         {
+			// printf("why did you get hear\n");
 			clear_history();
             printf(ANSI_COLOR_RED "Error: Failed to read input.\n" ANSI_COLOR_RESET);
-			if (parsed_cmd)
-				free_cmd(parsed_cmd);
+			// if (parsed_cmd)
+			// 	free_cmd(parsed_cmd);
             break;
         }
 		add_history(line_chunk);
@@ -142,13 +158,12 @@ int main(int argc, char **argv, char **envp)
             while (cmd && cmd[++n])
             {
 				temp = joined_str(cmd[n]);
-				ft_cmdlstadd_back(&parsed_cmd, ft_redirection(envp, temp));
-                // parsed_cmd = ft_redirection(envp, temp);
-				///// this is the parsing part	
+				ft_cmdlstadd_back(&parsed_cmd, ft_redirection(envp, temp, n));
 				free (temp);
-				// parsed_cmd = NULL;
             }
 			print_cmd(parsed_cmd);
+			the_exectue(parsed_cmd, envp);
+			printf("did you get hear ?\n");
 			if (parsed_cmd)
 				free_cmd(parsed_cmd);
 			parsed_cmd = NULL;
@@ -165,5 +180,6 @@ int main(int argc, char **argv, char **envp)
 			free_cmd(parsed_cmd);
 		parsed_cmd = NULL;
     }
+	restore_fd(saved_stdin, saved_stdout);
     return 0;
 }

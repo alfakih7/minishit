@@ -6,7 +6,7 @@
 #    By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 17:14:53 by asid-ahm          #+#    #+#              #
-#    Updated: 2024/07/22 15:58:13 by asid-ahm         ###   ########.fr        #
+#    Updated: 2024/07/25 17:58:32 by asid-ahm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ fclean: clean
 	@make -C $(LIBFT_DIR) fclean
 	@echo $(YELLOW)"Fully cleaned"$(RESET)
 	
-valgrind: $(NAME)
+valgrind: all $(NAME)
 	bash check_leaks.sh
 
 re: fclean all

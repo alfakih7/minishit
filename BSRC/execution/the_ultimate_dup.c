@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*   the_ultimate_dup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 03:43:20 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/24 03:43:47 by asid-ahm         ###   ########.fr       */
+/*   Created: 2024/07/23 17:55:50 by asid-ahm          #+#    #+#             */
+/*   Updated: 2024/07/23 17:56:15 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-char	*ft_getenv(char *the_env)
+void the_ultimate_dup()
 {
-	if (the_env)
-	{
-		while (*the_env)
-		{
-			if (*the_env == '=')
-				return (++the_env);
-			the_env++;
-		}
-		return the_env;
-	}
-	return (NULL);
+	
 }

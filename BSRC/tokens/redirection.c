@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:29:37 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/21 17:17:09 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/24 02:58:44 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	**fill_cmd(char **command, char *cont)
 	return (new_cmd);
 }
 
-t_cmd	*ft_redirection(char **env, char *line)
+t_cmd	*ft_redirection(char **env, char *line, int num)
 {
 	t_cmd	*command;
 	t_files	*the_list;
@@ -123,6 +123,7 @@ t_cmd	*ft_redirection(char **env, char *line)
 	}
 	ft_free(NULL, splitted);
 	expand_file_name(the_list, env);
+	command->cmd_num = num;
 	command->redirect = the_list;
 	command->next = NULL;
 	return (command);

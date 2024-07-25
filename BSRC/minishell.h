@@ -8,6 +8,8 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/fcntl.h>
+# include <sys/wait.h>
 # include "../libft/SRC/libft.h"
 
 enum RedirectionType {
@@ -19,6 +21,7 @@ enum RedirectionType {
 
 typedef struct s_cmd
 {
+	int				cmd_num;
 	char		    **content;
 	struct s_files *redirect;
 	struct s_cmd *next;
@@ -82,7 +85,7 @@ char    *ft_exclude_quotes(char *str);
 bool    contains_cmd(char *line_chunk);
 
 bool	check_syntax(char *line);
-t_cmd	*ft_redirection(char **env, char *line);
+t_cmd	*ft_redirection(char **env, char *line, int n);
 char	*joined_str(char *line);
 char	*expansion(char *line, char **env);
 int		ft_inside_quotes(t_inside *inside , int c);
@@ -94,11 +97,43 @@ void	ft_free(void *one_p, char **two_p);
 
 int	ft_cmdlstsize(t_cmd *lst);
 void	ft_cmdlstadd_back(t_cmd **lst, t_cmd *new1);
+
 typedef struct s_env
 {
 	char	*name;
 	char	*value;
 	struct s_env *next;
 }	t_env;
+
+
+////////execute the thing
+
+typedef struct s_fds
+{
+	int	fd_input;
+	int	fd_output;
+	int	ac;
+	int	pip[2];
+	int	here[2];
+}	t_fds;
+
+char	**get_path(char **env);
+void	ft_free1(void *one_p, char **two_p);
+void	execute(t_cmd *cmd, char **env, int *fd);
+char	*get_next_line(int fd);
+size_t	get_ft_strlen(char *str);
+char	*get_ft_strjoin(char *s1, char *s2);
+char	*get_ft_strdup(char *s1);
+char	*get_ft_strchr(const char *s, int c);
+void	without_path(char **split, char **env);
+void	with_path(char **split, char **path, char **env);
+void	execute_parent(int *pip, char **av, char **env);
+void	execute_child(t_fds pip, char **av, char **env);
+// void	execute_helper(char **av, t_fds *fd, int i);
+void	heredoc_decide(char **av, t_fds	*fd, char **env);
+void	pipe_decide(t_cmd *cmd, char **env);
+// void	here_doc(char **av, t_fds *fd);
+void	execute_one(t_cmd *cmd, char **env);
+int		the_exectue(t_cmd *cmd ,char **env);
 
 #endif

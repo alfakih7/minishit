@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 03:43:20 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/24 03:43:47 by asid-ahm         ###   ########.fr       */
+/*   Created: 2024/05/22 05:57:29 by asid-ahm          #+#    #+#             */
+/*   Updated: 2024/07/24 03:56:24 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-char	*ft_getenv(char *the_env)
+// flag 0 is for strings and arrays
+// flag 1 is for file_descriotors
+
+void	ft_free1(void *one_p, char **two_p)
 {
-	if (the_env)
+	int	i;
+
+	i = -1;
+	if (one_p)
 	{
-		while (*the_env)
-		{
-			if (*the_env == '=')
-				return (++the_env);
-			the_env++;
-		}
-		return the_env;
+		free(one_p);
+		one_p = NULL;
 	}
-	return (NULL);
+	if (two_p)
+	{
+		while (two_p[++i])
+			free(two_p[i]);
+		free(two_p);
+		two_p = NULL;
+	}
 }

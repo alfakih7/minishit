@@ -6,21 +6,19 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:29:49 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/06/24 10:40:24 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/26 03:04:12 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
-#include <sys/fcntl.h>
+#include "../minishell.h"
+#include <stdio.h>
 
-void	with_path(char *av, char **path, char **env)
+void	with_path(char **split, char **path, char **env)
 {
-	char	**split;
 	char	*command;
 	int		i;
 
 	i = -1;
-	split = ft_split(av, ' ');
 	while (path[++i])
 	{
 		command = ft_strjoin(path[i], split[0]);
@@ -32,6 +30,7 @@ void	with_path(char *av, char **path, char **env)
 	if (!command || execve(command, split, env) == -1)
 	{
 		write(2, "zsh: command not found: ", 24);
+		// perror("zsh");
 		ft_putstr_fd(split[0], 2);
 		write(2, "\n", 1);
 		ft_free(NULL, path);
@@ -40,62 +39,52 @@ void	with_path(char *av, char **path, char **env)
 	}
 }
 
-void	without_path(char *av, char **env)
+void	without_path(char **split, char **env)
 {
-	char	**split;
-
-	split = ft_split(av, ' ');
 	if (!split || !split[0] || execve(split[0], split, env) == -1)
 	{
-		write(2, "zsh: command not found: ", 24);
-		ft_putstr_fd(split[0], 2);
+		// write(2, "zsh: command not found: ", 24);
+		// ft_putstr_fd(split[0], 2);
 		write(2, "\n", 1);
 		ft_free(NULL, split);
 		exit(127);
 	}
 }
 
-void	execute_helper(char **av, t_fds *fd, int i)
+static void	execute_helper(t_cmd *cmd, int *fd)
 {
-	if (i == 2)
-	{
-		(*fd).fd_input = open(av[1], O_RDONLY);
-		if ((*fd).fd_input == -1)
-			(perror("zsh"), exit(1));
-		dup2((*fd).fd_input, 0);
-		(close((*fd).fd_input), close((*fd).pip[0]));
-		dup2((*fd).pip[1], 1);
-		close((*fd).pip[1]);
-	}
-	if (i == ((*fd).ac - 2))
-	{
-		(*fd).fd_output = open(av[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if ((*fd).fd_output == -1)
-			(perror("zsh"), exit(1));
-		dup2((*fd).fd_output, 1);
-		(close((*fd).fd_output), close((*fd).pip[1]), close((*fd).pip[0]));
-	}
-	else
-	{
-		close((*fd).pip[0]);
-		dup2((*fd).pip[1], 1);
-		close((*fd).pip[1]);
-	}
+	int		cmd_num;
+
+	printf("cmd_num = %d\n", cmd->cmd_num);
+	if (ft_cmdlstsize(cmd) != 1)
+		dup2(fd[1], 1);
+	close(fd[0]);
+	close(fd[1]);
 }
 
-void	execute(char **av, char **env, int i, t_fds fd)
+void	execute(t_cmd *cmd, char **env, int *fd)
 {
 	char	**path;
+	char	**split;
 
-	execute_helper(av, &fd, i);
-	path = get_path(env);
-	if (!path)
+	if (fd)
+		execute_helper(cmd, fd);
+	// split = ft_split(av[i], ' ');
+	if (!cmd)
 		exit (1);
-	if (!ft_strchr(av[i], '/'))
-		with_path(av[i], path, env);
-	else
+	if (cmd->content)
 	{
-		ft_free(NULL, path);
-		without_path(av[i], env);
+		if (!ft_strchr(cmd->content[0], '/'))
+		{
+			path = get_path(env);
+			if (!path)
+				(ft_free(NULL, cmd->content), exit(1));
+			with_path(cmd->content, path, env);
+		}
+		else
+		{
+			ft_free(NULL, cmd->content);
+			without_path(cmd->content, env);
+		}
 	}
 }
