@@ -16,26 +16,25 @@
 int	the_exectue(t_cmd *cmd ,char **env)
 {
 	int		size;
-	int		tmp_in;
-	int		tmp_out;
+	int		tmp_fd[2];
 	t_fds	fd;
 
-	tmp_in = dup(STDIN_FILENO);
-	tmp_out = dup(STDOUT_FILENO);
+	tmp_fd[0] = dup(STDIN_FILENO);
+	tmp_fd[1] = dup(STDOUT_FILENO);
 	size = ft_cmdlstsize(cmd);
 	// if (size)
 	// {
-		printf("size == %d\n", size);
+		// printf("size == %d\n", size);
 		// return (0);
 	// }
-	if (size == 1)
-		execute_one(cmd, env);
-	else
-		pipe_decide(cmd, env);
-	dup2(tmp_in, STDIN_FILENO);
-	dup2(tmp_out, STDOUT_FILENO);
-	close(tmp_in);
-	close(tmp_out);
+	// if (size == 1)
+	// 	execute_one(cmd, env);
+	// else
+	pipe_decide(cmd, env, tmp_fd);
+	dup2(tmp_fd[0], STDIN_FILENO);
+	dup2(tmp_fd[1], STDOUT_FILENO);
+	close(tmp_fd[0]);
+	close(tmp_fd[1]);
 	// t_fds	fd;
 
 	// if (ac == 2)

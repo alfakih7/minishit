@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 19:29:37 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/24 02:58:44 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/28 20:34:34 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ t_cmd	*ft_redirection(char **env, char *line, int num)
 		{
 			if (splitted[i])
 			{
-				// printf("splitted[%d] = (%s)\n", i, splitted[i]);
 				cmd = expansion(ft_strdup(splitted[i]), env);
 				command->content = fill_cmd(command->content, (cmd));
 			}

@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:24:39 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/25 18:06:29 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/26 03:18:24 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 void	execute_one(t_cmd *cmd, char **env)
 {
 	if (cmd)
-		execute(cmd, env, NULL);
+		return;
+	execute(cmd, env, NULL);
 }

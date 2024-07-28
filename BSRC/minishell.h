@@ -30,6 +30,10 @@ typedef struct s_cmd
 typedef struct s_files
 {
 	int				type;
+	int				fd;
+	int				heredoc_fd[2];
+	int				last_input;
+	int				last_output;
 	char		    *file_name;
 	struct s_files *next;
 }	t_files;
@@ -131,9 +135,10 @@ void	execute_parent(int *pip, char **av, char **env);
 void	execute_child(t_fds pip, char **av, char **env);
 // void	execute_helper(char **av, t_fds *fd, int i);
 void	heredoc_decide(char **av, t_fds	*fd, char **env);
-void	pipe_decide(t_cmd *cmd, char **env);
+void	pipe_decide(t_cmd *cmd, char **env, int fd[2]);
 // void	here_doc(char **av, t_fds *fd);
 void	execute_one(t_cmd *cmd, char **env);
 int		the_exectue(t_cmd *cmd ,char **env);
-
+void	execute_heredoc(t_files *files, int *pip);
+void	the_ultimate_dup(t_files *files, int *fd);
 #endif

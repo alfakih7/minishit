@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/25 18:51:24 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/28 23:33:10 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,6 @@
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
-
-// Save the current state of stdin and stdout
-void save_fd(int *saved_stdin, int *saved_stdout)
-{
-    *saved_stdin = dup(STDIN_FILENO);
-    *saved_stdout = dup(STDOUT_FILENO);
-}
-
-// Restore the saved state of stdin and stdout
-void restore_fd(int saved_stdin, int saved_stdout)
-{
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-    close(saved_stdin);
-    close(saved_stdout);
-}
 
 const char *redirection_type_to_string(enum RedirectionType type)
 {
@@ -110,15 +94,16 @@ static void print_cmd(t_cmd *cmd)
 
 	while (cmd)
 	{
-		printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_MAGENTA, cmd->cmd_num);
+		printf(ANSI_COLOR_MAGENTA "------------cmd[%d]------------\n" ANSI_COLOR_RESET, cmd->cmd_num);
 		printf(ANSI_COLOR_YELLOW "----- redirections -----\n" ANSI_COLOR_RESET);
 		printlist(cmd->redirect);
 		printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
 		i = -1;
 		printf(ANSI_COLOR_GREEN "-------- Commands -------\n" ANSI_COLOR_RESET);
 		while ((cmd->content && cmd->content[++i]))
-			printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s)\n", i, ANSI_COLOR_MAGENTA, cmd->content[i], ANSI_COLOR_RESET);
-		printf(ANSI_COLOR_CYAN "------------------------\n" ANSI_COLOR_RESET);
+			printf(ANSI_COLOR_GREEN "cmd [%d] = (%s%s%s%s)\n", i, ANSI_COLOR_RESET, ANSI_COLOR_MAGENTA, cmd->content[i], ANSI_COLOR_RESET);
+		printf(ANSI_COLOR_BLUE "------------------------\n" ANSI_COLOR_RESET);
+		printf(ANSI_COLOR_RESET);
 		cmd = cmd->next;
 	}	
 }
@@ -131,11 +116,8 @@ int main(int argc, char **argv, char **envp)
     char        *line_chunk;
     char        **cmd; //splitted by pipes
 	char *temp;
-	int         saved_stdin;
-    int         saved_stdout;
 
     i = -1;
-    save_fd(&saved_stdin, &saved_stdout);
 	parsed_cmd = NULL;
 	line_chunk = NULL;
     while (1)
@@ -161,9 +143,9 @@ int main(int argc, char **argv, char **envp)
 				ft_cmdlstadd_back(&parsed_cmd, ft_redirection(envp, temp, n));
 				free (temp);
             }
-			print_cmd(parsed_cmd);
+			// print_cmd(parsed_cmd);
 			the_exectue(parsed_cmd, envp);
-			printf("did you get hear ?\n");
+			// printf("did you get hear ?\n");
 			if (parsed_cmd)
 				free_cmd(parsed_cmd);
 			parsed_cmd = NULL;
@@ -180,6 +162,5 @@ int main(int argc, char **argv, char **envp)
 			free_cmd(parsed_cmd);
 		parsed_cmd = NULL;
     }
-	restore_fd(saved_stdin, saved_stdout);
     return 0;
 }

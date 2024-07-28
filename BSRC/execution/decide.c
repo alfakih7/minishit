@@ -6,11 +6,12 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:29:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/25 17:46:46 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/28 23:07:35 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 // void	heredoc_decide(char **av, t_fds	*fd, char **env)
 // {
@@ -41,7 +42,7 @@
 // 	}
 // }
 
-void	pipe_decide(t_cmd *cmd, char **env)
+void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 {
 	pid_t	pid;
 	t_cmd	*temp;
@@ -53,13 +54,17 @@ void	pipe_decide(t_cmd *cmd, char **env)
 	i = 0;
 	temp = cmd;
 	size = ft_cmdlstsize(cmd);
-	printf("size = %d\n", size);
 	while (i < size && temp)
 	{
 		pipe(fd);
 		pid = fork();
 		if (!pid)
+		{
+			close(tmp_fd[0]);
+			close(tmp_fd[1]);
+			printf("\x1b[0m");
 			execute(temp, env, fd);
+		}
 		else
 		{
 			close(fd[1]);
@@ -67,7 +72,6 @@ void	pipe_decide(t_cmd *cmd, char **env)
 			close(fd[0]);
 			if (i == size - 1)
 			{
-				printf("huhhhh\n");
 				waitpid(pid, &status, 0);
 				(WEXITSTATUS(status));
 			}

@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:29:49 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/26 03:04:12 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/28 22:44:06 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	execute_helper(t_cmd *cmd, int *fd)
 {
 	int		cmd_num;
 
-	printf("cmd_num = %d\n", cmd->cmd_num);
+	// printf("cmd_num = %d\n", cmd->cmd_num);
 	if (ft_cmdlstsize(cmd) != 1)
 		dup2(fd[1], 1);
 	close(fd[0]);
@@ -69,7 +69,8 @@ void	execute(t_cmd *cmd, char **env, int *fd)
 
 	if (fd)
 		execute_helper(cmd, fd);
-	// split = ft_split(av[i], ' ');
+	the_ultimate_dup(cmd->redirect, fd);
+	// printf("how_many_times\n");
 	if (!cmd)
 		exit (1);
 	if (cmd->content)
@@ -82,9 +83,6 @@ void	execute(t_cmd *cmd, char **env, int *fd)
 			with_path(cmd->content, path, env);
 		}
 		else
-		{
-			ft_free(NULL, cmd->content);
 			without_path(cmd->content, env);
-		}
 	}
 }
