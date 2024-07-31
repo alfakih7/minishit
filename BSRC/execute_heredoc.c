@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 21:59:42 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/28 22:59:21 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:33:21 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,19 @@ static void	exec_heredoc_helper(t_files *files, int *pip)
 
 	(close(pip[0]), close(pip[1]), close(files->heredoc_fd[0]));
 	str = NULL;
-	line = get_next_line(0);
-	temp = ft_strjoin(files->file_name, "\n");
-	// printf("temp = %s", temp);
+	line = readline("> ");
 	while (line && ft_strncmp(line,
-			temp, ft_strlen(files->file_name) + 1))
+			files->file_name, ft_strlen(files->file_name) + 1))
 	{
-		free(temp);
-		temp = NULL;
-		temp = ft_strjoin(files->file_name, "\n");
-		str = get_ft_strjoin(str, line);
+		ft_putstr_fd(line, files->heredoc_fd[1]);
+		ft_putstr_fd("\n", files->heredoc_fd[1]);
 		free(line);
 		line = NULL;
-		line = get_next_line(0);
+		line = readline("> ");
 	}
 	if (line)
 		free(line);
-	if (temp)
-		free(temp);
-	ft_putstr_fd(str, files->heredoc_fd[1]);
-	(free (str), close(files->heredoc_fd[1]));
+	(close(files->heredoc_fd[1]));
 	exit(0);
 }
 

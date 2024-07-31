@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:29:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/28 23:07:35 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:39:28 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,21 @@
 // 		}
 // 	}
 // }
+static void	my_waitpid(pid_t *pid, int size)
+{
+	int	status;
+	int	i;
 
+	i = 0;
+	while (i < size)
+	{
+		waitpid(pid[i], &status, 0);
+		i++;
+	}
+}
 void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 {
-	pid_t	pid;
+	pid_t	*pid;
 	t_cmd	*temp;
 	int		status;
 	int		i;
@@ -54,15 +65,17 @@ void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 	i = 0;
 	temp = cmd;
 	size = ft_cmdlstsize(cmd);
+	pid = malloc(sizeof(pid_t) * size);
 	while (i < size && temp)
 	{
 		pipe(fd);
-		pid = fork();
-		if (!pid)
+		// waitpid(pid, &status, 0);
+		pid[i] = fork();
+		if (!pid[i])
 		{
 			close(tmp_fd[0]);
 			close(tmp_fd[1]);
-			printf("\x1b[0m");
+			// printf("\x1b[0m");
 			execute(temp, env, fd);
 		}
 		else
@@ -72,7 +85,7 @@ void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 			close(fd[0]);
 			if (i == size - 1)
 			{
-				waitpid(pid, &status, 0);
+				my_waitpid(pid, size);
 				(WEXITSTATUS(status));
 			}
 			temp = temp->next;

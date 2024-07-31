@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:16:47 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/20 18:13:41 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:51:13 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ static bool	check_pipe(char *line, int i)
 {
 	int	j;
 
+	j = 0;
+	while (line[j] == ' ')
+		j++;
+	if (j == i)
+		return (false);
 	j = 0;
 	i++;
 	while (line[i] && j <= i)

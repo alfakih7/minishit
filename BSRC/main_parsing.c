@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/28 23:33:10 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:38:51 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,16 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         line_chunk = readline("\x1b[34mminishell > \x1b[0m");
+		add_history(line_chunk);
         if (!line_chunk)
         {
 			// printf("why did you get hear\n");
 			clear_history();
-            printf(ANSI_COLOR_RED "Error: Failed to read input.\n" ANSI_COLOR_RESET);
+            // ft_putstr_fd(ANSI_COLOR_RED "Error: Failed to read input.\n" ANSI_COLOR_RESET, 2);
 			// if (parsed_cmd)
 			// 	free_cmd(parsed_cmd);
             break;
         }
-		add_history(line_chunk);
 		if (!check_quotes(line_chunk) && check_syntax(line_chunk))
         {
             cmd = split_with_no_quotes(line_chunk, '|');
@@ -143,6 +143,7 @@ int main(int argc, char **argv, char **envp)
 				ft_cmdlstadd_back(&parsed_cmd, ft_redirection(envp, temp, n));
 				free (temp);
             }
+			do_excluding_quotes(parsed_cmd);
 			// print_cmd(parsed_cmd);
 			the_exectue(parsed_cmd, envp);
 			// printf("did you get hear ?\n");

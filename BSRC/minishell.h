@@ -91,12 +91,14 @@ bool    contains_cmd(char *line_chunk);
 bool	check_syntax(char *line);
 t_cmd	*ft_redirection(char **env, char *line, int n);
 char	*joined_str(char *line);
+char	*ft_exclude_quotes(char *str);
 char	*expansion(char *line, char **env);
 int		ft_inside_quotes(t_inside *inside , int c);
 void	expand_lstadd_back(t_expand **lst, t_expand *new1);
 t_expand	*expand_lstnew(void *content);
 char	*ft_getenv(char *the_env);
 void	ft_free(void *one_p, char **two_p);
+void	do_excluding_quotes(t_cmd *cmd);
 
 
 int	ft_cmdlstsize(t_cmd *lst);
@@ -137,7 +139,6 @@ void	execute_child(t_fds pip, char **av, char **env);
 void	heredoc_decide(char **av, t_fds	*fd, char **env);
 void	pipe_decide(t_cmd *cmd, char **env, int fd[2]);
 // void	here_doc(char **av, t_fds *fd);
-void	execute_one(t_cmd *cmd, char **env);
 int		the_exectue(t_cmd *cmd ,char **env);
 void	execute_heredoc(t_files *files, int *pip);
 void	the_ultimate_dup(t_files *files, int *fd);
