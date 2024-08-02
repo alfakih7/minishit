@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 03:02:03 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 06:30:13 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 06:32:22 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ static int	dup_out(t_files *files, int *fd)
 		files->fd = open(files->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (files->type == REDIR_APPEND)
 		files->fd = open(files->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	// if (files->fd == -1)
-	// {
-	// 	close(fd[0]);
-	// 	close(fd[1]);
-	// 	perror("bash: ");
-	// 	return (1);
-	// }
-	// if (files->last_output)
-	// 	dup2(files->fd, 1);
-	// close(files->fd);
+	if (files->fd == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		perror("bash: ");
+		return (1);
+	}
+	if (files->last_output)
+		dup2(files->fd, 1);
+	close(files->fd);
 	return (0);
 }
 

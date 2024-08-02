@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:29:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 06:30:20 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 06:32:29 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 	while (i < size && temp)
 	{
 		pipe(fd);
-		// waitpid(pid, &status, 0);
+		// status = the_ultimate_dup(full_cmd, cmd->redirect, fd);
 		pid[i] = fork();
 		if (!pid[i])
 		{
