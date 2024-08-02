@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 18:07:17 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/31 22:38:51 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 02:40:51 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,20 @@ void	ft_free(void *one_p, char **two_p)
 		two_p = NULL;
 	}
 }
+
+void	free_redirection(t_files *redirection)
+{
+	t_files	*temp;
+
+	while (redirection)
+	{
+		ft_free(redirection->file_name, NULL);
+		temp = redirection->next;
+		free(redirection);
+		redirection = NULL;
+		redirection = temp;
+	}
+}
 void	free_cmd(t_cmd *cmd)
 {
 	t_files	*temp;
@@ -72,20 +86,33 @@ void	free_cmd(t_cmd *cmd)
 		return ;
 	while (cmd)
 	{
-	ft_free(NULL, cmd->content);
-	cmd_temp = cmd;
-	while (cmd->redirect)
-	{
-		ft_free(cmd->redirect->file_name, NULL);
-		temp = cmd->redirect->next;
-		free(cmd->redirect);
+		ft_free(NULL, cmd->content);
+		cmd_temp = cmd;
+		if (cmd->redirect)
+			free_redirection(cmd->redirect);
 		cmd->redirect = NULL;
-		cmd->redirect = temp;
+		cmd = cmd->next;
+		free(cmd_temp);
+		cmd_temp = NULL;
 	}
-	cmd = cmd->next;
-	free(cmd_temp);
-	cmd_temp = NULL;
-	}
+}
+
+void	free_one_cmd(t_cmd *cmd)
+{
+	t_files	*temp;
+	t_cmd	*cmd_temp;
+
+	if (!cmd)
+		return ;
+	if (cmd)
+		ft_free(NULL, cmd->content);
+		cmd_temp = cmd;
+		if (cmd->redirect)
+			free_redirection(cmd->redirect);
+		cmd->redirect = NULL;
+		cmd = cmd->next;
+		free(cmd_temp);
+		cmd_temp = NULL;
 }
 
 static void print_cmd(t_cmd *cmd)
@@ -143,6 +170,7 @@ int main(int argc, char **argv, char **envp)
 				ft_cmdlstadd_back(&parsed_cmd, ft_redirection(envp, temp, n));
 				free (temp);
             }
+			ft_free(NULL,cmd);
 			do_excluding_quotes(parsed_cmd);
 			// print_cmd(parsed_cmd);
 			the_exectue(parsed_cmd, envp);
@@ -151,7 +179,6 @@ int main(int argc, char **argv, char **envp)
 				free_cmd(parsed_cmd);
 			parsed_cmd = NULL;
 			parsed_cmd = NULL;
-			ft_free(NULL,cmd);
         }
 		else
 		{

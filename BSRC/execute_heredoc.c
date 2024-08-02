@@ -6,51 +6,87 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 21:59:42 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/31 22:33:21 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 06:30:03 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-static void	exec_heredoc_helper(t_files *files, int *pip)
+static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files, int *pip)
 {
-	char	*line;
-	char	*str;
-	char	*temp;
+    char *line;
 
-	(close(pip[0]), close(pip[1]), close(files->heredoc_fd[0]));
-	str = NULL;
-	line = readline("> ");
-	while (line && ft_strncmp(line,
-			files->file_name, ft_strlen(files->file_name) + 1))
-	{
-		ft_putstr_fd(line, files->heredoc_fd[1]);
-		ft_putstr_fd("\n", files->heredoc_fd[1]);
-		free(line);
-		line = NULL;
-		line = readline("> ");
-	}
-	if (line)
-		free(line);
-	(close(files->heredoc_fd[1]));
-	exit(0);
+    // Close unused pipe ends in the child process
+    close(pip[0]);
+    close(pip[1]);
+    close(files->heredoc_fd[0]);
+
+    // Read lines from user input until the delimiter is found
+    while ((line = readline("> ")) != NULL)
+    {
+        if (ft_strncmp(line, files->file_name, ft_strlen(files->file_name)) == 0 && line[ft_strlen(files->file_name)] == '\0')
+        {
+            free(line);
+            break;
+        }
+        ft_putstr_fd(line, files->heredoc_fd[1]);
+        ft_putstr_fd("\n", files->heredoc_fd[1]);
+        free(line);
+    }
+
+    // Close the write end of the heredoc pipe and exit
+    close(files->heredoc_fd[1]);
+    free_cmd(full_cmd);
+    exit(EXIT_SUCCESS);
 }
 
-void	execute_heredoc(t_files *files, int *pip)
+void execute_heredoc(t_cmd *full_cmd, t_files *files, int *pip)
 {
-	int	pid;
+    pid_t pid;
 
-	pipe(files->heredoc_fd);
-	pid = fork();
-	if (pid == 0)
-		exec_heredoc_helper(files, pip);
-	else
-	{
-		waitpid(pid, NULL, 0);
-		close(files->heredoc_fd[1]);
-		if (files->last_input)
-			dup2(files->heredoc_fd[0], STDIN_FILENO);
-		close(files->heredoc_fd[0]);
-	}
+    // Create a pipe for heredoc
+    if (pipe(files->heredoc_fd) == -1)
+    {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+
+    // Fork the process
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (pid == 0) // Child process
+    {
+        exec_heredoc_helper(full_cmd, files, pip);
+    }
+    else // Parent process
+    {
+        // Wait for the child process to complete
+        if (waitpid(pid, NULL, 0) == -1)
+        {
+            perror("waitpid");
+            exit(EXIT_FAILURE);
+        }
+
+        // Close the unused end of the heredoc pipe
+        close(files->heredoc_fd[1]);
+
+        // Set up input redirection if needed
+        if (files->last_input)
+        {
+            if (dup2(files->heredoc_fd[0], STDIN_FILENO) == -1)
+            {
+                perror("dup2");
+                exit(EXIT_FAILURE);
+            }
+        }
+        close(files->heredoc_fd[0]);
+    }
 }

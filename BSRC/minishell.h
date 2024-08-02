@@ -125,21 +125,19 @@ typedef struct s_fds
 
 char	**get_path(char **env);
 void	ft_free1(void *one_p, char **two_p);
-void	execute(t_cmd *cmd, char **env, int *fd);
+void	execute(t_cmd *full_cmd, t_cmd *cmd, char **env, int *fd);
 char	*get_next_line(int fd);
 size_t	get_ft_strlen(char *str);
 char	*get_ft_strjoin(char *s1, char *s2);
 char	*get_ft_strdup(char *s1);
 char	*get_ft_strchr(const char *s, int c);
-void	without_path(char **split, char **env);
-void	with_path(char **split, char **path, char **env);
-void	execute_parent(int *pip, char **av, char **env);
-void	execute_child(t_fds pip, char **av, char **env);
 // void	execute_helper(char **av, t_fds *fd, int i);
 void	heredoc_decide(char **av, t_fds	*fd, char **env);
 void	pipe_decide(t_cmd *cmd, char **env, int fd[2]);
 // void	here_doc(char **av, t_fds *fd);
 int		the_exectue(t_cmd *cmd ,char **env);
-void	execute_heredoc(t_files *files, int *pip);
-void	the_ultimate_dup(t_files *files, int *fd);
+void	execute_heredoc(t_cmd *full_cmd, t_files *files, int *pip);
+int		the_ultimate_dup(t_cmd *full_cmd, t_files *files, int *fd);
+void	free_one_cmd(t_cmd *cmd);
+void	free_cmd(t_cmd *cmd);
 #endif
