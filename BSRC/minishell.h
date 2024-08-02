@@ -136,8 +136,8 @@ void	heredoc_decide(char **av, t_fds	*fd, char **env);
 void	pipe_decide(t_cmd *cmd, char **env, int fd[2]);
 // void	here_doc(char **av, t_fds *fd);
 int		the_exectue(t_cmd *cmd ,char **env);
-void	execute_heredoc(t_cmd *full_cmd, t_files *files, int *pip);
-int		the_ultimate_dup(t_cmd *full_cmd, t_files *files, int *fd);
+void	execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2]);
+int		the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2]);
 void	free_one_cmd(t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
 #endif

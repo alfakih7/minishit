@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:29:49 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 06:32:27 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:57:05 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,34 @@ static void	execute_helper(t_cmd *cmd, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 }
+static void	select_last_redirect(t_files *redirection)
+{
+	while (redirection)
+	{
+		if (redirection->last_output)
+		{
+			if (redirection->type == REDIR_OUT || redirection->type == REDIR_APPEND)
+			{
+				dup2(redirection->fd, 1);
+				close(redirection->fd);
+			}
+		}
+		else if (redirection->last_input)
+		{
+			if (redirection->type == REDIR_IN)
+			{
+				dup2(redirection->fd, 0);
+				close(redirection->fd);
+			}
+			else if (redirection->type == REDIR_HEREDOC)
+			{
+				dup2(redirection->heredoc_fd[0], 0);
+				close(redirection->heredoc_fd[0]);
+			}
+		}
+		redirection = redirection->next;
+	}
+}
 
 void	execute(t_cmd *full_cmd, t_cmd *cmd, char **env, int *fd)
 {
@@ -85,8 +113,8 @@ void	execute(t_cmd *full_cmd, t_cmd *cmd, char **env, int *fd)
 	status = 0;
 	if (fd)
 		execute_helper(cmd, fd);
-	status = the_ultimate_dup(full_cmd, cmd->redirect, fd);
-	if (!status && cmd->content)
+	select_last_redirect(cmd->redirect);
+	if (cmd->content)
 	{
 		if (!ft_strchr(cmd->content[0], '/'))
 		{

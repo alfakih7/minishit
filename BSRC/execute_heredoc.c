@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 21:59:42 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 06:30:03 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:35:31 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files, int *pip)
+static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files)
 {
     char *line;
 
     // Close unused pipe ends in the child process
-    close(pip[0]);
-    close(pip[1]);
     close(files->heredoc_fd[0]);
 
     // Read lines from user input until the delimiter is found
@@ -43,7 +41,7 @@ static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files, int *pip)
     exit(EXIT_SUCCESS);
 }
 
-void execute_heredoc(t_cmd *full_cmd, t_files *files, int *pip)
+void execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
 {
     pid_t pid;
 
@@ -64,7 +62,9 @@ void execute_heredoc(t_cmd *full_cmd, t_files *files, int *pip)
 
     if (pid == 0) // Child process
     {
-        exec_heredoc_helper(full_cmd, files, pip);
+		close (tmp_fd[0]);
+		close (tmp_fd[1]);
+        exec_heredoc_helper(full_cmd, files);
     }
     else // Parent process
     {
@@ -79,14 +79,15 @@ void execute_heredoc(t_cmd *full_cmd, t_files *files, int *pip)
         close(files->heredoc_fd[1]);
 
         // Set up input redirection if needed
-        if (files->last_input)
+        if (!files->last_input)
         {
-            if (dup2(files->heredoc_fd[0], STDIN_FILENO) == -1)
-            {
-                perror("dup2");
-                exit(EXIT_FAILURE);
-            }
+            // if (dup2(files->heredoc_fd[0], STDIN_FILENO) == -1)
+            // {
+            //     perror("dup2");
+            //     exit(EXIT_FAILURE);
+            // }
+			close(files->heredoc_fd[0]);
         }
-        close(files->heredoc_fd[0]);
+        // close(files->heredoc_fd[0]);
     }
 }

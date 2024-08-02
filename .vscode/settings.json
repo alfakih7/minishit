@@ -69,6 +69,8 @@
 	"unordered_map": "c",
 	"utility": "c",
 	"vector": "c",
-	"sstream": "c"
+	"sstream": "c",
+	"__locale": "c",
+	"ios": "c"
 }
 }

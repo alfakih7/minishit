@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:24:23 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/07/24 02:54:39 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:48:36 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ char	*expansion(char *line, char **env)
 	t_inside	inside;
 
 	i = 0;
-	inside.quotes = i;
-	inside.dquotes = i;
-	n = i;
-	flag = n;
+	inside.quotes = 0;
+	inside.dquotes = 0;
+	n = 0;
+	flag = 0;
 	temp = NULL;
 	size_total = size_of_expansions(line, &temp, env);
 	the_dup = malloc(size_total + 1);

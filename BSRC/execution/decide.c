@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:29:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 06:32:29 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:53:38 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@ static void	my_waitpid(pid_t *pid, int size, int *status)
 		i++;
 	}
 }
+
+static void close_last(t_files *redirection)
+{
+	while (redirection)
+	{
+		if (redirection->last_output)
+		{
+			if (redirection->type == REDIR_OUT || redirection->type == REDIR_APPEND)
+				close(redirection->fd);
+		}
+		else if (redirection->last_input)
+		{
+			if (redirection->type == REDIR_IN)
+				close(redirection->fd);
+			else if (redirection->type == REDIR_HEREDOC)
+				close(redirection->heredoc_fd[0]);
+		}
+		redirection = redirection->next;
+	}
+}
 void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 {
 	pid_t	*pid;
@@ -34,35 +54,43 @@ void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 	int		fd[2];
 
 	i = 0;
+	status = 0;
 	temp = cmd;
 	size = ft_cmdlstsize(cmd);
-	if (size)
-		pid = malloc(sizeof(pid_t) * size);
 	while (i < size && temp)
 	{
-		pipe(fd);
-		// status = the_ultimate_dup(full_cmd, cmd->redirect, fd);
-		pid[i] = fork();
-		if (!pid[i])
+		if (temp->redirect)
 		{
-			close(tmp_fd[0]);
-			close(tmp_fd[1]);
-			ft_free(pid, NULL);
-			execute(cmd, temp, env, fd);
+			status = the_ultimate_dup(cmd, temp->redirect, tmp_fd);
 		}
-		else
+		if (!status)
 		{
-			close(fd[1]);
-			dup2(fd[0], 0);
-			close(fd[0]);
-			if (i == size - 1)
+			if (size && i == 0)
+				pid = malloc(sizeof(pid_t) * size);
+			pipe(fd);
+			pid[i] = fork();
+			if (!pid[i])
 			{
-				my_waitpid(pid, size, &status);
+				close(tmp_fd[0]);
+				close(tmp_fd[1]);
 				ft_free(pid, NULL);
-				(WEXITSTATUS(status)); /// the exit status
+				execute(cmd, temp, env, fd);
 			}
-			temp = temp->next;
-			i++;
+			else
+			{
+				close_last(temp->redirect);
+				close(fd[1]);
+				dup2(fd[0], 0);
+				close(fd[0]);
+				if (i == size - 1)
+				{
+					my_waitpid(pid, size, &status);
+					ft_free(pid, NULL);
+					(WEXITSTATUS(status)); /// the exit status
+				}
+			}
 		}
+		temp = temp->next;
+		i++;
 	}
 }
