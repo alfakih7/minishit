@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 21:59:42 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 14:35:31 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:58:45 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
         perror("fork");
         exit(EXIT_FAILURE);
     }
-
     if (pid == 0) // Child process
     {
 		close (tmp_fd[0]);
@@ -68,6 +67,8 @@ void execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
     }
     else // Parent process
     {
+		// close (tmp_fd[0]);
+		// close (tmp_fd[1]);
         // Wait for the child process to complete
         if (waitpid(pid, NULL, 0) == -1)
         {

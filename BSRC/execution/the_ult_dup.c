@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 03:02:03 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 08:55:03 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/04 00:46:54 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ static int	dup_in(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
 int	the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
 {
 	int	status;
+	t_files	*temp;
 
 	status = 0;
+	temp = files;
 	last_in_and_out(files);
 	while(files)
 	{
@@ -94,5 +96,6 @@ int	the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
 			return (status);
 		files = files->next;
 	}
+	select_last_redirect(temp);
 	return (status);
 }

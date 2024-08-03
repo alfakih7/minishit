@@ -140,4 +140,5 @@ void	execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2]);
 int		the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2]);
 void	free_one_cmd(t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
+void	select_last_redirect(t_files *redirection);
 #endif

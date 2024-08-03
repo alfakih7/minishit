@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 16:29:49 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 08:57:05 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/04 00:51:54 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ static void	execute_helper(t_cmd *cmd, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 }
-static void	select_last_redirect(t_files *redirection)
+void	select_last_redirect(t_files *redirection)
 {
+	int	temp_fd[2];
+
 	while (redirection)
 	{
 		if (redirection->last_output)
@@ -113,7 +115,6 @@ void	execute(t_cmd *full_cmd, t_cmd *cmd, char **env, int *fd)
 	status = 0;
 	if (fd)
 		execute_helper(cmd, fd);
-	select_last_redirect(cmd->redirect);
 	if (cmd->content)
 	{
 		if (!ft_strchr(cmd->content[0], '/'))
