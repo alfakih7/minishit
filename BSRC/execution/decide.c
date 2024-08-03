@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:29:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/04 00:43:36 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/04 01:55:39 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 	{
 		status = 0;
 		if (temp->redirect)
-			status = the_ultimate_dup(cmd, temp->redirect, tmp_fd);
+			status = the_ultimate_dup(cmd, temp->redirect, tmp_fd, env);
 		if (!status)
 		{
 			if (size && i == 0)

@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 03:02:03 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/04 00:46:54 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/04 01:54:51 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	dup_out(t_files *file)
 	return (0);
 }
 
-static int	dup_in(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
+static int	dup_in(t_cmd *full_cmd, t_files *files, int tmp_fd[2], char **env)
 {
 	if (files->type == REDIR_IN)
 	{
@@ -74,10 +74,10 @@ static int	dup_in(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
 			close(files->fd);
 	}
 	else if (files->type == REDIR_HEREDOC)
-		execute_heredoc(full_cmd, files, tmp_fd); 
+		execute_heredoc(full_cmd, files, tmp_fd, env); 
 	return (0);
 }
-int	the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
+int	the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2], char **env)
 {
 	int	status;
 	t_files	*temp;
@@ -91,7 +91,7 @@ int	the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
 		if (files->type == REDIR_OUT || files->type == REDIR_APPEND)
 			status = dup_out(files);
 		else if (files->type == REDIR_IN || files->type == REDIR_HEREDOC)
-			status = dup_in(full_cmd, files, tmp_fd);
+			status = dup_in(full_cmd, files, tmp_fd, env);
 		if (status)
 			return (status);
 		files = files->next;

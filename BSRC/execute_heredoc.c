@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 21:59:42 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/02 15:58:45 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/04 01:53:58 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files)
+static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files, char **env)
 {
     char *line;
 
@@ -30,6 +30,8 @@ static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files)
             free(line);
             break;
         }
+		if (ft_strchr(line, '$'))
+			line = expansion(line, env);
         ft_putstr_fd(line, files->heredoc_fd[1]);
         ft_putstr_fd("\n", files->heredoc_fd[1]);
         free(line);
@@ -41,7 +43,7 @@ static void exec_heredoc_helper(t_cmd *full_cmd, t_files *files)
     exit(EXIT_SUCCESS);
 }
 
-void execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
+void execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2], char **env)
 {
     pid_t pid;
 
@@ -63,7 +65,7 @@ void execute_heredoc(t_cmd *full_cmd, t_files *files, int tmp_fd[2])
     {
 		close (tmp_fd[0]);
 		close (tmp_fd[1]);
-        exec_heredoc_helper(full_cmd, files);
+        exec_heredoc_helper(full_cmd, files, env);
     }
     else // Parent process
     {

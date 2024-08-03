@@ -6,7 +6,7 @@
 #    By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 17:14:53 by asid-ahm          #+#    #+#              #
-#    Updated: 2024/08/02 04:33:21 by asid-ahm         ###   ########.fr        #
+#    Updated: 2024/08/04 02:51:42 by asid-ahm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ all: $(NAME)
 	@echo $(GREEN_B)"\n$(NAME) is Compiled.🐢 \n"$(RESET)
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -L$(LIBFT_DIR) -lft  -lreadline
+	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME) -L$(LIBFT_DIR) -lft  -lreadline -lcurses
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
