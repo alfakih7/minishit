@@ -6,7 +6,7 @@
 /*   By: asid-ahm <asid-ahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:29:45 by asid-ahm          #+#    #+#             */
-/*   Updated: 2024/08/04 01:55:39 by asid-ahm         ###   ########.fr       */
+/*   Updated: 2024/08/04 06:12:13 by asid-ahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	pipe_decide(t_cmd *cmd, char **env, int tmp_fd[2])
 			status = the_ultimate_dup(cmd, temp->redirect, tmp_fd, env);
 		if (!status)
 		{
+			///////here you will do the bultinis
 			if (size && i == 0)
 				pid = malloc(sizeof(pid_t) * size);
 			pipe(fd);
