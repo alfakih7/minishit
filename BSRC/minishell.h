@@ -141,4 +141,19 @@ int		the_ultimate_dup(t_cmd *full_cmd, t_files *files, int tmp_fd[2], char **env
 void	free_one_cmd(t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
 void	select_last_redirect(t_files *redirection);
+
+//builtins and signals functions + their utils
+void print_env(char **env);
+int ft_strcmp(const char *str1, const char *str2);
+void print_export(char **env);
+void sort_env(char **env);
+void export(char **env, const char *str);
+void unset(char **env, const char *var);
+//cd
+char *get_env_var(char **env, const char *name);
+void set_env_var(char **env, const char *name, const char *value);
+void cd_command(char **env, char *path);
+void pwd_command(char **env);
+char *ft_strcat(char *dest , const char *src);
+char *ft_strcpy(char *dest , char *src);
 #endif
